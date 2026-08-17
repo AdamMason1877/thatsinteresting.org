@@ -98,17 +98,17 @@ export default function HomePage() {
 
         <section className="home-editorial" id="about" aria-labelledby="home-editorial-title">
           <header className="home-section-label">
-            <span>About the publication</span>
+            <span>How the publication works</span>
             <span>01</span>
           </header>
           <div className="home-editorial__body">
-            <h2 id="home-editorial-title">We follow the connection that makes a familiar subject look different.</h2>
+            <h2 id="home-editorial-title">We follow an interesting thought until the evidence changes what we see.</h2>
             <div className="home-editorial__notes">
               <p>
-                Most ideas are presented alone. We place them beside evidence from another field, another scale, or another point in time.
+                Every exhibit begins with a thought worth following: a question, comparison, contradiction, or pattern that refuses to stay small. We research it across disciplines, test the first assumption against evidence, and keep going when the answer becomes less tidy.
               </p>
               <p>
-                Each exhibit combines reporting, data, and visual storytelling. The goal is not more information. It is a clearer way to see what was already there.
+                The result is part investigation and part visual story. The goal is not to manufacture certainty; it is to show how curiosity becomes a researched point of view—and let the reader see the reasoning that got us there.
               </p>
             </div>
           </div>

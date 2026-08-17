@@ -74,11 +74,11 @@ export default function HomeLoopHero({ experience }) {
 
       <div className="home-loop-hero__copy">
         <h1 id="home-loop-title">
-          Nothing is interesting <span>alone.</span>
+          Interesting thoughts, <span>followed through.</span>
         </h1>
         <div className="home-loop-hero__dek">
-          <p>A visual publication about the hidden relationships that change how the world looks.</p>
-          <a href="#about">Read the premise <i aria-hidden="true">↓</i></a>
+          <p>A visual publication that takes a curious idea seriously—researching it, testing it against evidence, and seeing where it leads.</p>
+          <a href="#about">See how we follow an idea <i aria-hidden="true">↓</i></a>
         </div>
       </div>
     </section>
