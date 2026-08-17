@@ -8,6 +8,13 @@ import ScatterAtlas from '../components/ScatterAtlas.jsx'
 import RunwayChart from '../components/RunwayChart.jsx'
 import ExchangeBars from '../components/ExchangeBars.jsx'
 import MajorTable from '../components/MajorTable.jsx'
+import {
+  ComplexityMap,
+  ComplexityMetrics,
+  ComplexityTable,
+  DisciplineProfiles,
+  IntegrationJunctions,
+} from '../components/SystemsComplexity.jsx'
 
 function ReadingProgress() {
   const [progress, setProgress] = useState(0)
@@ -88,17 +95,35 @@ const storyModules = {
   'runway-chart': () => <RunwayChart />,
   'exchange-bars': () => <ExchangeBars />,
   'major-table': () => <MajorTable />,
+  'complexity-map': () => <><ComplexityMap /><ComplexityMetrics /></>,
+  'discipline-profiles': () => <DisciplineProfiles />,
+  'integration-junctions': () => <IntegrationJunctions />,
+  'complexity-table': () => <ComplexityTable />,
+}
+
+const evidenceKeys = {
+  atlas: [
+    <span key="rigor"><b>Rigor index</b> weekly study time + grading + abstraction</span>,
+    <span key="pay"><b>Pay</b> NY Fed medians · 2024 Census data</span>,
+    <span key="early"><b>Early career</b> ages 22–27</span>,
+    <span key="mid"><b>Mid-career</b> ages 35–45</span>,
+  ],
+  'systems-complexity': [
+    <span key="sample"><b>Field</b> 6 high-complexity concepts per discipline</span>,
+    <span key="dimensions"><b>Dimensions</b> depth · integration · state · opacity · adversary</span>,
+    <span key="scale"><b>Scale</b> editorial index from 1–10</span>,
+    <span key="scope"><b>Scope</b> production-scale systems, not entry-level study</span>,
+  ],
 }
 
 function StoryBody({ article }) {
+  const evidence = evidenceKeys[article.kind]
+
   return (
     <>
-      {article.kind === 'atlas' && (
+      {evidence && (
         <section className="evidence-key content-wide" aria-label="Reading key">
-          <span><b>Rigor index</b> weekly study time + grading + abstraction</span>
-          <span><b>Pay</b> NY Fed medians · 2024 Census data</span>
-          <span><b>Early career</b> ages 22–27</span>
-          <span><b>Mid-career</b> ages 35–45</span>
+          {evidence}
         </section>
       )}
 

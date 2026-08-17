@@ -22,9 +22,9 @@ Articles live in `src/content/articles.js` and are checked against the contract 
 
 Generated cinematic video is pinned globally to **Seedance 2.5** in `src/content/publishingConfig.js`; the article contract rejects any exhibit configured with a different video model.
 
-The cinematic renderer in `src/components/CinematicExperience.jsx` chooses the strongest available treatment automatically:
+The cinematic renderer in `src/components/CinematicExperience.jsx` chooses the strongest available treatment automatically. A fully coded renderer can deliver the entire opening without generated media:
 
-1. A bespoke coded renderer named by `cinematic_assets.renderer`
+1. A bespoke coded renderer named by `cinematic_assets.renderer` (including video-free exhibits)
 2. A scroll-scrubbed `desktop_frame_sequence`
 3. Responsive generated video through `mobile_video` and `cinematic_assets.desktop_video`
 4. A metadata-driven abstract concept treatment as the fallback

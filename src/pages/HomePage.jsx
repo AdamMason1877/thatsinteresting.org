@@ -6,6 +6,7 @@ import MiniPlot from '../components/MiniPlot.jsx'
 import SiteFooter from '../components/SiteFooter.jsx'
 import SiteHeader from '../components/SiteHeader.jsx'
 import SmartLink from '../components/SmartLink.jsx'
+import { SystemsMiniPlot } from '../components/SystemsComplexity.jsx'
 
 function Arrow() {
   return <span className="arrow" aria-hidden="true">↗</span>
@@ -13,6 +14,7 @@ function Arrow() {
 
 export default function HomePage() {
   const featured = articles[0]
+  const isSystemsAtlas = featured.kind === 'systems-complexity'
 
   useEffect(() => {
     document.title = "That's Interesting — Ideas become interesting when they connect"
@@ -37,7 +39,7 @@ export default function HomePage() {
                 Most ideas are presented alone. We place them beside evidence from another field, another scale, or another point in time.
               </p>
               <p>
-                Each exhibit combines reporting, data, and film. The goal is not more information. It is a clearer way to see what was already there.
+                Each exhibit combines reporting, data, and visual storytelling. The goal is not more information. It is a clearer way to see what was already there.
               </p>
             </div>
           </div>
@@ -52,8 +54,8 @@ export default function HomePage() {
           <article className="home-exhibit" id="atlases" style={{ '--accent': featured.accent }}>
             <SmartLink className="home-exhibit__visual" href={`/stories/${featured.slug}`} aria-label={`Enter ${featured.title}`}>
               <span className="home-exhibit__number">{featured.number}</span>
-              <MiniPlot />
-              <span className="home-exhibit__caption">Rigor × mid-career pay</span>
+              {isSystemsAtlas ? <SystemsMiniPlot /> : <MiniPlot />}
+              <span className="home-exhibit__caption">{isSystemsAtlas ? 'Paths × state × trust' : 'Rigor × mid-career pay'}</span>
             </SmartLink>
             <div className="home-exhibit__copy">
               <div className="home-exhibit__meta">

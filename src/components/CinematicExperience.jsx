@@ -371,6 +371,77 @@ function ConceptVisual({ article, activeScene }) {
   )
 }
 
+const systemsCinemaNodes = [
+  { field: 'network', label: 'PATH', start: [14, 22], end: [41, 30] },
+  { field: 'network', label: 'ROUTE', start: [14, 40], end: [34, 46] },
+  { field: 'network', label: 'STATE', start: [14, 58], end: [43, 65] },
+  { field: 'network', label: 'FAIL', start: [14, 76], end: [52, 77] },
+  { field: 'computer', label: 'MODEL', start: [50, 22], end: [51, 25] },
+  { field: 'computer', label: 'ORDER', start: [50, 40], end: [57, 42] },
+  { field: 'computer', label: 'STATE', start: [50, 58], end: [48, 58] },
+  { field: 'computer', label: 'PROOF', start: [50, 76], end: [60, 69] },
+  { field: 'security', label: 'TRUST', start: [86, 22], end: [65, 29] },
+  { field: 'security', label: 'POLICY', start: [86, 40], end: [68, 49] },
+  { field: 'security', label: 'KEYS', start: [86, 58], end: [64, 63] },
+  { field: 'security', label: 'THREAT', start: [86, 76], end: [51, 51] },
+]
+
+function SystemsComplexityVisual({ progress, alt }) {
+  const weave = smoothstep(0.12, 0.64, progress)
+  const pressure = smoothstep(0.58, 0.88, progress)
+  const resolve = smoothstep(0.82, 1, progress)
+
+  return (
+    <div
+      className="systems-cinema"
+      role="img"
+      aria-label={alt}
+      style={{
+        '--weave': weave,
+        '--pressure': pressure,
+        '--resolve': resolve,
+        '--mesh-opacity': 0.12 + weave * 0.22,
+        '--field-opacity': 1 - weave * 0.72,
+        '--node-scale': 0.9 + pressure * 0.1,
+        '--node-glow': `${pressure * 22}px`,
+        '--core-scale': 0.78 + pressure * 0.22,
+        '--threat-scale': 1.16 - pressure * 0.16,
+      }}
+    >
+      <div className="systems-cinema__mesh" />
+      <div className="systems-cinema__field systems-cinema__field--network"><span>NETWORK</span><i /></div>
+      <div className="systems-cinema__field systems-cinema__field--computer"><span>COMPUTER SCIENCE</span><i /></div>
+      <div className="systems-cinema__field systems-cinema__field--security"><span>SECURITY</span><i /></div>
+      <div className="systems-cinema__nodes" aria-hidden="true">
+        {systemsCinemaNodes.map((node, index) => (
+          <i
+            data-field={node.field}
+            key={`${node.field}-${node.label}`}
+            style={{
+              left: `${lerp(node.start[0], node.end[0], weave)}%`,
+              top: `${lerp(node.start[1], node.end[1], weave)}%`,
+              '--node-delay': index,
+            }}
+          >
+            {node.label}
+          </i>
+        ))}
+      </div>
+      <div className="systems-cinema__core" aria-hidden="true">
+        <span>THE HARD PART</span>
+        <strong>THE<br />JUNCTION</strong>
+        <small>paths × state × trust</small>
+      </div>
+      <div className="systems-cinema__threat" aria-hidden="true"><span>ACTIVE ADVERSARY</span></div>
+      <div className="systems-cinema__verdict" aria-hidden="true">
+        <span>CS goes deepest</span>
+        <span>Networks coordinate widest</span>
+        <span>Security compounds both</span>
+      </div>
+    </div>
+  )
+}
+
 function VisualRenderer({ article, progress, activeScene, reduceMotion }) {
   const assets = article.cinematic_assets
 
@@ -380,6 +451,10 @@ function VisualRenderer({ article, progress, activeScene, reduceMotion }) {
 
   if (assets.renderer === 'rigor-reward-morph') {
     return <RigorRewardVisual progress={progress} alt={article.visual_alt_text} />
+  }
+
+  if (assets.renderer === 'systems-complexity-weave') {
+    return <SystemsComplexityVisual progress={progress} alt={article.visual_alt_text} />
   }
 
   if (article.desktop_frame_sequence.length > 0) {
