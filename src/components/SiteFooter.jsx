@@ -2,7 +2,7 @@ import SmartLink from './SmartLink.jsx'
 
 export default function SiteFooter() {
   return (
-    <footer className="site-footer" id="about">
+    <footer className="site-footer">
       <div>
         <p className="site-footer__manifesto">Stay curious.<br />Follow the evidence.</p>
         <p className="site-footer__small">Visual stories about the systems hiding in plain sight.</p>

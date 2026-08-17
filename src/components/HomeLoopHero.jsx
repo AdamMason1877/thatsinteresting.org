@@ -72,27 +72,19 @@ export default function HomeLoopHero({ experience }) {
         <div className="home-loop-hero__veil" aria-hidden="true" />
       </div>
 
-      <div className="home-loop-hero__topline">
-        <span>The field of thought</span>
-        <span>Ambient loop · 20 seconds</span>
+      <div className="home-loop-hero__stamp" aria-hidden="true">
+        <span>That’s Interesting</span>
+        <span>Film 00:20</span>
       </div>
 
       <div className="home-loop-hero__copy">
-        <p>A digital museum of connected ideas</p>
         <h1 id="home-loop-title">
-          Every idea begins alone.
-          <em>Interesting begins between them.</em>
+          Nothing is interesting <span>alone.</span>
         </h1>
-        <span>
-          Enter an infinite field where thoughts become visible—and the connections between them become the story.
-        </span>
-        <a href="#about">Explore the field <i aria-hidden="true">↓</i></a>
-      </div>
-
-      <div className="home-loop-hero__status" aria-hidden="true">
-        <span>Continuous field</span>
-        <i />
-        <span>Sound off</span>
+        <div className="home-loop-hero__dek">
+          <p>A visual publication about the hidden relationships that change how the world looks.</p>
+          <a href="#about">Read the premise <i aria-hidden="true">↓</i></a>
+        </div>
       </div>
     </section>
   )
