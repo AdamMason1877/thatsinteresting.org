@@ -3447,10 +3447,40 @@ a:focus-visible .arrow {
     #111110;
 }
 
+.home-exhibit__visual::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(5, 5, 5, .58) 0%, transparent 28%, transparent 66%, rgba(5, 5, 5, .7) 100%),
+    linear-gradient(90deg, rgba(5, 5, 5, .12), transparent 55%);
+}
+
+.home-exhibit__cover {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 700ms var(--ease-out), filter 400ms ease;
+}
+
+.home-exhibit__visual:hover .home-exhibit__cover,
+.home-exhibit__visual:focus-visible .home-exhibit__cover {
+  transform: scale(1.025);
+  filter: saturate(1.08) contrast(1.02);
+}
+
 .home-exhibit__number,
 .home-exhibit__caption {
+  position: relative;
+  z-index: 2;
   color: var(--home-muted);
   font-size: 12px;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, .9);
 }
 
 .home-exhibit__number {
@@ -3650,7 +3680,7 @@ a:focus-visible .arrow {
 .home-atlas-card__visual {
   height: 205px;
   margin: 24px -22px 0;
-  padding: 18px 28px;
+  padding: 0;
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -3659,6 +3689,21 @@ a:focus-visible .arrow {
     #141413;
   border-top: 1px solid var(--home-rule);
   border-bottom: 1px solid var(--home-rule);
+}
+
+.home-atlas-card__visual img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 650ms var(--ease-out), filter 400ms ease;
+}
+
+.home-atlas-card > a:hover .home-atlas-card__visual img,
+.home-atlas-card > a:focus-visible .home-atlas-card__visual img {
+  transform: scale(1.035);
+  filter: saturate(1.08) contrast(1.03);
 }
 
 .home-atlas-card__visual .mini-plot {

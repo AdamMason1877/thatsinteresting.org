@@ -2,11 +2,9 @@ import { useEffect, useRef } from 'react'
 import { articles } from '../content/articles.js'
 import { homeCinematic } from '../content/homeCinematic.js'
 import HomeLoopHero from '../components/HomeLoopHero.jsx'
-import MiniPlot from '../components/MiniPlot.jsx'
 import SiteFooter from '../components/SiteFooter.jsx'
 import SiteHeader from '../components/SiteHeader.jsx'
 import SmartLink from '../components/SmartLink.jsx'
-import { SystemsMiniPlot } from '../components/SystemsComplexity.jsx'
 
 function Arrow() {
   return <span className="arrow" aria-hidden="true">↗</span>
@@ -50,7 +48,6 @@ function AtlasArchive() {
         tabIndex="0"
       >
         {articles.map((article, index) => {
-          const isSystemsAtlas = article.kind === 'systems-complexity'
           return (
             <article className="home-atlas-card" style={{ '--accent': article.accent }} key={article.slug}>
               <SmartLink href={`/stories/${article.slug}`} aria-label={`Open ${article.title}`}>
@@ -59,7 +56,7 @@ function AtlasArchive() {
                   <span>{index === 0 ? 'Latest' : article.date}</span>
                 </div>
                 <div className="home-atlas-card__visual">
-                  {isSystemsAtlas ? <SystemsMiniPlot /> : <MiniPlot />}
+                  <img src={article.cover_image} alt={article.cover_alt} loading="lazy" />
                 </div>
                 <div className="home-atlas-card__body">
                   <span>{article.category}</span>
@@ -83,7 +80,6 @@ function AtlasArchive() {
 
 export default function HomePage() {
   const featured = articles[0]
-  const isSystemsAtlas = featured.kind === 'systems-complexity'
 
   useEffect(() => {
     document.title = "That's Interesting — Ideas become interesting when they connect"
@@ -122,9 +118,9 @@ export default function HomePage() {
 
           <article className="home-exhibit" style={{ '--accent': featured.accent }}>
             <SmartLink className="home-exhibit__visual" href={`/stories/${featured.slug}`} aria-label={`Enter ${featured.title}`}>
+              <img className="home-exhibit__cover" src={featured.cover_image} alt="" aria-hidden="true" />
               <span className="home-exhibit__number">{featured.number}</span>
-              {isSystemsAtlas ? <SystemsMiniPlot /> : <MiniPlot />}
-              <span className="home-exhibit__caption">{isSystemsAtlas ? 'Paths × state × trust' : 'Rigor × mid-career pay'}</span>
+              <span className="home-exhibit__caption">{featured.cover_caption}</span>
             </SmartLink>
             <div className="home-exhibit__copy">
               <div className="home-exhibit__meta">
