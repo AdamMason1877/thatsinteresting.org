@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { articles } from '../content/articles.js'
 import { homeCinematic } from '../content/homeCinematic.js'
 import HomeLoopHero from '../components/HomeLoopHero.jsx'
@@ -10,6 +10,75 @@ import { SystemsMiniPlot } from '../components/SystemsComplexity.jsx'
 
 function Arrow() {
   return <span className="arrow" aria-hidden="true">↗</span>
+}
+
+function AtlasArchive() {
+  const railRef = useRef(null)
+
+  const moveRail = (direction) => {
+    const rail = railRef.current
+    if (!rail) return
+    const card = rail.querySelector('.home-atlas-card')
+    const distance = card ? card.getBoundingClientRect().width + 18 : rail.clientWidth * 0.8
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    rail.scrollBy({ left: direction * distance, behavior: reduceMotion ? 'auto' : 'smooth' })
+  }
+
+  return (
+    <section className="home-atlas-index" id="atlases" aria-labelledby="home-atlas-index-title">
+      <header className="home-section-label">
+        <span>Atlas index</span>
+        <span>{articles.length} published {articles.length === 1 ? 'exhibit' : 'exhibits'} · newest first</span>
+      </header>
+
+      <div className="home-atlas-index__intro">
+        <div>
+          <span>Every article, kept in view</span>
+          <h2 id="home-atlas-index-title">The complete collection.</h2>
+        </div>
+        <div className="home-atlas-index__controls" aria-label="Move through the atlas index">
+          <button type="button" onClick={() => moveRail(-1)} aria-label="Previous atlas">←</button>
+          <button type="button" onClick={() => moveRail(1)} aria-label="Next atlas">→</button>
+        </div>
+      </div>
+
+      <div
+        className="home-atlas-rail"
+        ref={railRef}
+        role="region"
+        aria-label={`All ${articles.length} published atlases`}
+        tabIndex="0"
+      >
+        {articles.map((article, index) => {
+          const isSystemsAtlas = article.kind === 'systems-complexity'
+          return (
+            <article className="home-atlas-card" style={{ '--accent': article.accent }} key={article.slug}>
+              <SmartLink href={`/stories/${article.slug}`} aria-label={`Open ${article.title}`}>
+                <div className="home-atlas-card__topline">
+                  <span>Exhibit {article.number}</span>
+                  <span>{index === 0 ? 'Latest' : article.date}</span>
+                </div>
+                <div className="home-atlas-card__visual">
+                  {isSystemsAtlas ? <SystemsMiniPlot /> : <MiniPlot />}
+                </div>
+                <div className="home-atlas-card__body">
+                  <span>{article.category}</span>
+                  <h3>{article.title}</h3>
+                  <p>{article.hook}</p>
+                  <small>{article.cardNote}</small>
+                </div>
+                <footer>
+                  <span>{article.readTime}</span>
+                  <strong>Open atlas <Arrow /></strong>
+                </footer>
+              </SmartLink>
+            </article>
+          )
+        })}
+      </div>
+      <p className="home-atlas-index__hint">Scroll, swipe, or use the arrow controls to move through the collection.</p>
+    </section>
+  )
 }
 
 export default function HomePage() {
@@ -51,7 +120,7 @@ export default function HomePage() {
             <span>One story, considered closely</span>
           </header>
 
-          <article className="home-exhibit" id="atlases" style={{ '--accent': featured.accent }}>
+          <article className="home-exhibit" style={{ '--accent': featured.accent }}>
             <SmartLink className="home-exhibit__visual" href={`/stories/${featured.slug}`} aria-label={`Enter ${featured.title}`}>
               <span className="home-exhibit__number">{featured.number}</span>
               {isSystemsAtlas ? <SystemsMiniPlot /> : <MiniPlot />}
@@ -71,6 +140,8 @@ export default function HomePage() {
             </div>
           </article>
         </section>
+
+        <AtlasArchive />
       </main>
 
       <SiteFooter />
