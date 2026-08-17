@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react'
 import {
   complexityDimensions,
+  conceptRationales,
+  dimensionGuide,
   dimensionAverage,
   disciplineMeta,
   integrationJunctions,
@@ -8,6 +10,88 @@ import {
 } from '../content/systemsComplexityData.js'
 
 const fieldOrder = ['network', 'computer', 'security']
+
+const metricInsights = [
+  {
+    label: 'Deepest abstraction',
+    value: 'Formal verification',
+    summary: 'Computer science reaches furthest into proof, models, and semantics.',
+    why: 'Formal verification receives the only 10.0 depth score because the system, the required property, and the reasoning that connects them must all be stated precisely. It does not lead the integration axis because verification usually makes progress by bounding or abstracting the surrounding world.',
+  },
+  {
+    label: 'Widest integration',
+    value: 'Zero-trust cloud',
+    summary: 'Identity, policy, services, networks, and telemetry cross ownership boundaries.',
+    why: 'Zero-trust multi-cloud enforcement receives the 10.0 integration score because a single access decision may depend on identity, device posture, workload identity, network context, service policy, data sensitivity, and threat telemetry spread across several platforms.',
+  },
+  {
+    label: 'Most live state',
+    value: 'Consensus + response',
+    summary: 'Both reason about systems that change while the decision is being made.',
+    why: 'Consensus and incident response both receive 10.0 for dynamic state, but for different reasons. Consensus must preserve order through asynchronous machine events; response must reconstruct incomplete human and system activity while both the environment and the opponent continue to change.',
+  },
+  {
+    label: 'Added security tax',
+    value: 'An opponent',
+    summary: 'Security inherits system complexity, then adds adaptation and deception.',
+    why: 'This is a qualitative conclusion, not a claim that every security task is harder. At the complex end of the field, security must reason about the same software and infrastructure failures while also considering deliberate input choice, evasion, stolen authority, and an adversary who learns from the defense.',
+  },
+]
+
+function ScoringGuide() {
+  return (
+    <details className="scoring-guide">
+      <summary>
+        <span><b>How to read the index</b> What each score measures and why the map begins at 7.2</span>
+        <strong>Open methodology <i aria-hidden="true">+</i></strong>
+      </summary>
+      <div className="scoring-guide__body">
+        <p>
+          This atlas begins with eighteen deliberately difficult production-scale concepts, so the visible range is the upper end of a 1–10 scale. A 7 is already substantial; 8 means the dimension is a defining source of difficulty; 9 means it dominates the work; 10 is reserved for an extreme in this comparison set.
+        </p>
+        <div>
+          {complexityDimensions.map((dimension) => (
+            <article key={dimension.key}>
+              <span>{dimension.label}</span>
+              <strong>{dimensionGuide[dimension.key].question}</strong>
+              <p>{dimensionGuide[dimension.key].meaning}</p>
+            </article>
+          ))}
+        </div>
+        <small>Scores describe the shape of a problem, not the intelligence, seniority, or value of the people working on it.</small>
+      </div>
+    </details>
+  )
+}
+
+function ConceptReasoning({ concept, label = 'Why these indicators?' }) {
+  const rationale = conceptRationales[concept.id]
+  if (!rationale) return null
+
+  return (
+    <details className="concept-reasoning" style={{ '--field-color': disciplineMeta[concept.field].color }}>
+      <summary>
+        <span><b>{label}</b> The argument behind {concept.id}, dimension by dimension</span>
+        <strong>Explore <i aria-hidden="true">+</i></strong>
+      </summary>
+      <div className="concept-reasoning__body">
+        <p className="concept-reasoning__position"><b>Why it sits here</b>{rationale.position}</p>
+        <div className="concept-reasoning__drivers">
+          {complexityDimensions.map((dimension) => (
+            <article key={dimension.key}>
+              <header><span>{dimension.label}</span><strong>{concept[dimension.key].toFixed(1)}</strong></header>
+              <p>{rationale.drivers[dimension.key]}</p>
+            </article>
+          ))}
+        </div>
+        <div className="concept-reasoning__next">
+          <span>Go one level deeper</span>
+          <ul>{rationale.investigate.map((item) => <li key={item}>{item}</li>)}</ul>
+        </div>
+      </div>
+    </details>
+  )
+}
 
 function DimensionBars({ concept }) {
   return (
@@ -26,10 +110,17 @@ function DimensionBars({ concept }) {
 export function ComplexityMetrics() {
   return (
     <div className="metrics-strip complexity-metrics">
-      <div><span>Deepest abstraction</span><strong>Formal verification</strong><p>Computer science reaches furthest into proof, models, and semantics.</p></div>
-      <div><span>Widest integration</span><strong>Zero-trust cloud</strong><p>Identity, policy, services, networks, and telemetry cross ownership boundaries.</p></div>
-      <div><span>Most live state</span><strong>Consensus + response</strong><p>Both reason about systems that change while the decision is being made.</p></div>
-      <div><span>Added security tax</span><strong>An opponent</strong><p>Security inherits system complexity, then adds adaptation and deception.</p></div>
+      {metricInsights.map((metric) => (
+        <div key={metric.label}>
+          <span>{metric.label}</span>
+          <strong>{metric.value}</strong>
+          <p>{metric.summary}</p>
+          <details>
+            <summary>Why this call? <i aria-hidden="true">+</i></summary>
+            <p>{metric.why}</p>
+          </details>
+        </div>
+      ))}
     </div>
   )
 }
@@ -63,6 +154,8 @@ export function ComplexityMap() {
           </button>
         ))}
       </div>
+
+      <ScoringGuide />
 
       <div className="complexity-atlas__plot">
         <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="complexity-map-title complexity-map-desc">
@@ -135,6 +228,7 @@ export function ComplexityMap() {
           <blockquote><b>Why it stays hard</b>{active.hard}</blockquote>
         </div>
         <DimensionBars concept={active} />
+        <ConceptReasoning concept={active} />
       </aside>
       <p className="chart-hint">Filter by discipline, then hover, tap, or tab through the numbered points.</p>
     </div>
@@ -169,6 +263,13 @@ export function DisciplineProfiles() {
               <span>Native difficulty</span>
               <strong>{meta.nativeDifficulty}</strong>
             </footer>
+            <details className="discipline-profile__reasoning">
+              <summary>Why this profile? <i aria-hidden="true">+</i></summary>
+              <div>
+                <p>{meta.profileReason}</p>
+                <p><b>Where the boundary appears</b>{meta.boundary}</p>
+              </div>
+            </details>
           </article>
         )
       })}
@@ -214,6 +315,20 @@ export function IntegrationJunctions() {
           ))}
         </div>
         <blockquote><span>Characteristic failure</span>{active.failure}</blockquote>
+        <details className="junction-reasoning">
+          <summary>
+            <span><b>Why this ranking?</b> Reasoning, trade-off, and questions to test</span>
+            <strong>Explore <i aria-hidden="true">+</i></strong>
+          </summary>
+          <div>
+            <p><b>The argument</b>{active.why}</p>
+            <p><b>The central trade-off</b>{active.tradeoff}</p>
+            <section>
+              <span>Questions that would validate the design</span>
+              <ul>{active.checks.map((check) => <li key={check}>{check}</li>)}</ul>
+            </section>
+          </div>
+        </details>
       </article>
     </div>
   )
@@ -227,6 +342,7 @@ const columns = [
 
 export function ComplexityTable() {
   const [sort, setSort] = useState({ key: 'integration', direction: 'desc' })
+  const [activeId, setActiveId] = useState('SEC-06')
   const rows = useMemo(() => [...systemsConcepts].sort((a, b) => {
     const first = a[sort.key]
     const second = b[sort.key]
@@ -242,8 +358,9 @@ export function ComplexityTable() {
   }
 
   return (
-    <div className="data-table-wrap complexity-table-wrap">
-      <table className="data-table complexity-table">
+    <div className="complexity-table-shell">
+      <div className="data-table-wrap complexity-table-wrap">
+        <table className="data-table complexity-table">
         <thead>
           <tr>
             {columns.map((column) => (
@@ -258,14 +375,30 @@ export function ComplexityTable() {
         </thead>
         <tbody>
           {rows.map((concept) => (
-            <tr key={concept.id}>
-              <td><i data-field={concept.field} />{concept.name}</td>
+            <tr key={concept.id} className={concept.id === activeId ? 'is-active' : ''}>
+              <td>
+                <button
+                  type="button"
+                  className="complexity-table__concept"
+                  onClick={() => setActiveId(concept.id)}
+                  aria-pressed={concept.id === activeId}
+                >
+                  <i data-field={concept.field} />
+                  <span>{concept.name}</span>
+                  <small>{concept.id === activeId ? 'Selected' : 'Explain'}</small>
+                </button>
+              </td>
               <td>{disciplineMeta[concept.field].short}</td>
               {complexityDimensions.map((dimension) => <td key={dimension.key}>{concept[dimension.key].toFixed(1)}</td>)}
             </tr>
           ))}
         </tbody>
-      </table>
+        </table>
+      </div>
+      <ConceptReasoning
+        concept={systemsConcepts.find((concept) => concept.id === activeId) ?? systemsConcepts[0]}
+        label="Why this row?"
+      />
     </div>
   )
 }

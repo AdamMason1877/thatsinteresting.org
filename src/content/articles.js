@@ -86,6 +86,7 @@ export const articles = [
         paragraphs: [
           'Move right for deeper abstraction: semantics, proofs, concurrency, and exact models. Move up for wider integration: more systems, owners, control planes, and trust boundaries that must agree.',
           'The upper-right corner is where elegant ideas meet messy reality. Security concepts cluster there because they must span the system while assuming that someone is actively trying to break the guarantee.',
+          'Select any point for the concise explanation. Open “Why these indicators?” when you want the reasoning behind all five scores and two questions that take the concept one level deeper.',
         ],
         module: 'complexity-map',
       },
@@ -95,6 +96,7 @@ export const articles = [
         paragraphs: [
           'Computer science is deepest when it asks what can be computed, ordered, isolated, or proved. Network engineering is widest when independent devices and organizations must converge without a single view of the truth.',
           'Security engineering is less a separate stack than a constraint across every stack. Its hardest problems combine technical state with identity, policy, human incentives, and an adaptive adversary.',
+          'Each profile can be expanded to explain why its average has that shape—and where the discipline must hand responsibility to the other two.',
         ],
         module: 'discipline-profiles',
       },
@@ -103,7 +105,7 @@ export const articles = [
         title: 'The hardest builds are translations between fields',
         paragraphs: [
           'A production system does not respect academic boundaries. Routing policy becomes application availability; distributed state becomes authorization context; identity policy becomes a packet-level enforcement decision.',
-          'Select a junction to see what each discipline contributes—and the characteristic failure that appears only after the pieces are composed.',
+          'Select a junction to see what each discipline contributes and the characteristic failure that appears only after the pieces are composed. The expanded view adds the ranking argument, central trade-off, and three questions that would test the design.',
         ],
         module: 'integration-junctions',
       },
@@ -111,7 +113,7 @@ export const articles = [
         label: '04 · The ledger',
         title: 'Eighteen concepts, five kinds of difficulty',
         paragraphs: [
-          'Sort the full field by any dimension. The values are an editorial heuristic anchored to standards, curricula, and systems literature—not a universal or empirical ranking of people, jobs, or teams.',
+          'Sort the full field by any dimension, then select a row to inspect its complete rationale below the table. The values are an editorial heuristic anchored to standards, curricula, and systems literature—not a universal or empirical ranking of people, jobs, or teams.',
         ],
         module: 'complexity-table',
       },
