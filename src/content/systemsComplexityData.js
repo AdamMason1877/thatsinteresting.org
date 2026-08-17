@@ -5,7 +5,7 @@ export const disciplineMeta = {
     color: '#70e1ff',
     thesis: 'Coordinate paths through hardware, policy, distance, and partial failure.',
     nativeDifficulty: 'Global behavior from local decisions',
-    profileReason: 'Network engineering scores highest on integration and dynamic state because the system is physically distributed, continuously changing, and only partially visible from any one device. Its conceptual models are rigorous, but the distinctive burden is making independent control planes converge while traffic is already flowing.',
+    profileReason: 'Network engineering’s signature dimensions are integration and dynamic state because the system is physically distributed, continuously changing, and only partially visible from any one device. Security’s selected concepts span even more trust and ownership domains; the network-specific burden is making independent control planes converge while traffic is already flowing.',
     boundary: 'The network can deliver a path and expose its condition. It cannot decide whether the application state is correct or whether the requester should be trusted; those handoffs lead directly into computer science and security engineering.',
   },
   computer: {
@@ -35,6 +35,281 @@ export const complexityDimensions = [
   { key: 'opacity', label: 'Failure opacity' },
   { key: 'adversary', label: 'Adversarial pressure' },
 ]
+
+export const complexityThreshold = 7
+
+export const categoryRule = {
+  title: 'Classify by the primary object being engineered',
+  copy: 'The category is not a claim of exclusive ownership. It identifies the object whose behavior the work is trying to control; adjacent fields name the assumptions and dependencies that still matter.',
+  network: {
+    label: 'Network engineering',
+    rule: 'Primary object: reachability, forwarding behavior, path selection, or control-plane convergence.',
+  },
+  computer: {
+    label: 'Computer science',
+    rule: 'Primary object: computation, storage semantics, program behavior, runtime behavior, or proof of correctness.',
+  },
+  security: {
+    label: 'Security engineering',
+    rule: 'Primary object: assurance, authority, or trust when misuse and an adaptive adversary are part of the model.',
+  },
+}
+
+// These anchors make the 1-10 index ordinal and reproducible. A score is a
+// category with a written meaning, not a claim of interval-scale measurement.
+export const scoreAnchors = {
+  depth: {
+    1: 'Recognize or configure a familiar mechanism by procedure.',
+    2: 'Apply a single bounded model with familiar rules.',
+    3: 'Combine a few rules and troubleshoot a contained mechanism.',
+    4: 'Reason across one important abstraction boundary.',
+    5: 'Reconcile several abstractions and explicit trade-offs.',
+    6: 'Use an exact model to handle important edge cases.',
+    7: 'A semantic, mathematical, or formal model defines a correct solution.',
+    8: 'Several exact models interact and assumptions must be tracked.',
+    9: 'Advanced mathematics, semantics, or proof-style reasoning is central.',
+    10: 'Correctness depends on proof-level precision; small assumption changes can alter what is possible.',
+  },
+  integration: {
+    1: 'One component and one owner contain the work.',
+    2: 'A few components cooperate under one owner.',
+    3: 'One subsystem spans a single platform or team.',
+    4: 'Several subsystems compose inside one product boundary.',
+    5: 'Multiple services or teams cooperate through stable contracts.',
+    6: 'The work crosses a platform, vendor, or operational boundary.',
+    7: 'Cross-boundary coordination is a defining source of difficulty.',
+    8: 'Many heterogeneous technical or ownership domains must align.',
+    9: 'Organization or provider dependencies leave only partial authority and visibility.',
+    10: 'The system is ecosystem-scale: no owner has complete end-to-end control.',
+  },
+  state: {
+    1: 'The subject is effectively static or evaluated offline.',
+    2: 'Change is infrequent, explicit, and controlled.',
+    3: 'Local state changes mostly in a sequential order.',
+    4: 'Concurrent state exists inside one bounded system.',
+    5: 'Several moving components interact with bounded delay.',
+    6: 'State is distributed but shares a common coordination mechanism.',
+    7: 'Asynchrony or distributed timing is a defining constraint.',
+    8: 'Reordering, recovery, or temporary divergence is routine.',
+    9: 'Continuous change combines with partial failure or stale views.',
+    10: 'Decisions must be correct while global state is unknowable and still changing.',
+  },
+  opacity: {
+    1: 'Cause and symptom are local, visible, and reproducible.',
+    2: 'Direct instrumentation usually exposes the cause.',
+    3: 'A bounded log trail or deterministic reproduction is available.',
+    4: 'Several layers participate, but ownership and evidence remain clear.',
+    5: 'The symptom is at least one layer removed from the cause.',
+    6: 'Intermittence or partial observability materially slows diagnosis.',
+    7: 'Observability gaps or nondeterminism define the investigation.',
+    8: 'Many layers produce plausible, similar-looking causes.',
+    9: 'Symptoms are remote or delayed and essential context is often missing.',
+    10: 'Evidence is incomplete or mutable, and investigation or containment can change it.',
+  },
+  adversary: {
+    1: 'An attacker is outside the defining problem model.',
+    2: 'Basic hardening matters but is incidental to the core problem.',
+    3: 'Abuse is possible, though normal correctness still dominates.',
+    4: 'Explicit misuse cases affect some design choices.',
+    5: 'Hostile input changes important interfaces or guarantees.',
+    6: 'A threat model spans several exposed interfaces.',
+    7: 'Attacker-aware design is a defining constraint.',
+    8: 'A capable attacker targets composition, authority, or privileged paths.',
+    9: 'An adaptive attacker materially changes operation and response.',
+    10: 'A persistent adaptive adversary is central and searches continuously for the weakest seam.',
+  },
+}
+
+export const evidenceLibrary = {
+  rfc4271: {
+    label: 'IETF RFC 4271 · BGP-4',
+    url: 'https://datatracker.ietf.org/doc/html/rfc4271',
+    supports: 'BGP exchanges inter-AS reachability, applies policy through path attributes and selection, and maintains asynchronous finite-state sessions.',
+  },
+  rfc7454: {
+    label: 'IETF RFC 7454 · BGP operations and security',
+    url: 'https://datatracker.ietf.org/doc/html/rfc7454',
+    supports: 'Operational BGP design must account for route leaks, prefix filtering, maximum-prefix controls, and deliberate or accidental propagation failures.',
+  },
+  rfc8365: {
+    label: 'IETF RFC 8365 · EVPN overlays',
+    url: 'https://datatracker.ietf.org/doc/html/rfc8365',
+    supports: 'EVPN distributes overlay reachability over several possible encapsulations and underlay designs.',
+  },
+  rfc8402: {
+    label: 'IETF RFC 8402 · Segment Routing Architecture',
+    url: 'https://datatracker.ietf.org/doc/html/rfc8402',
+    supports: 'Segment routing steers packets through ordered instructions while depending on IGP topology and forwarding behavior.',
+  },
+  nist207a: {
+    label: 'NIST SP 800-207A · Cloud-native zero trust',
+    url: 'https://csrc.nist.gov/pubs/sp/800/207/a/final',
+    supports: 'Multi-cloud access control composes identities, services, gateways, policies, telemetry, and enforcement across platforms.',
+  },
+  rfc8969: {
+    label: 'IETF RFC 8969 · YANG-based network automation',
+    url: 'https://datatracker.ietf.org/doc/html/rfc8969',
+    supports: 'Automation joins service models, network models, controllers, configuration, and operational state in a layered workflow.',
+  },
+  rfc7381: {
+    label: 'IETF RFC 7381 · Enterprise IPv6 deployment',
+    url: 'https://datatracker.ietf.org/doc/html/rfc7381',
+    supports: 'IPv6 deployment is a staged program spanning addressing, routing, DNS, applications, operations, and security.',
+  },
+  flp: {
+    label: 'Fischer, Lynch & Paterson · Distributed consensus impossibility',
+    url: 'https://groups.csail.mit.edu/tds/papers/Lynch/pods83-flp.pdf',
+    supports: 'A completely asynchronous consensus protocol cannot guarantee termination with even one unannounced crash failure.',
+  },
+  raft: {
+    label: 'Ongaro & Ousterhout · Raft',
+    url: 'https://raft.github.io/raft.pdf',
+    supports: 'A practical consensus system decomposes leader election, replicated logs, safety, persistence, and membership change.',
+  },
+  cppMemory: {
+    label: 'ISO C++ committee · Concurrency memory model',
+    url: 'https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1276.htm',
+    supports: 'Concurrent meaning depends on happens-before relations built from sequencing and synchronization across threads.',
+  },
+  cs2023: {
+    label: 'ACM, IEEE-CS & AAAI · CS2023',
+    url: 'https://csed.acm.org/wp-content/uploads/2025/11/CS2023-Report.htm',
+    supports: 'The curriculum places operating systems, programming-language semantics, concurrency, data management, and formal methods inside computer science.',
+  },
+  spanner: {
+    label: 'Google Research · Spanner',
+    url: 'https://research.google/pubs/spanner-googles-globally-distributed-database-2/',
+    supports: 'Globally distributed transactions require replication, externally consistent ordering, and an API that exposes clock uncertainty.',
+  },
+  sel4: {
+    label: 'seL4 Foundation · Verification proofs',
+    url: 'https://sel4.systems/Verification/proofs.html',
+    supports: 'Machine-checked assurance links specifications, C implementation, and—in supported configurations—binary behavior while retaining explicit assumptions.',
+  },
+  nist57: {
+    label: 'NIST SP 800-57 Part 1 Rev. 5 · Key management',
+    url: 'https://csrc.nist.gov/projects/key-management/key-management-guidelines',
+    supports: 'Cryptographic assurance depends on the protection, metadata, access control, inventory, and lifecycle of keying material.',
+  },
+  nist63c: {
+    label: 'NIST SP 800-63C-4 · Federation and assertions',
+    url: 'https://csrc.nist.gov/pubs/sp/800/63/c/4/final',
+    supports: 'Federation crosses separately administered credential providers and relying parties through verifiable assertions.',
+  },
+  nist218: {
+    label: 'NIST SP 800-218 · Secure Software Development Framework',
+    url: 'https://csrc.nist.gov/pubs/sp/800/218/final',
+    supports: 'Secure development spans producers, purchasers, suppliers, acquisition, vulnerability prevention, and lifecycle practices.',
+  },
+  nist61: {
+    label: 'NIST SP 800-61 Rev. 3 · Incident response',
+    url: 'https://csrc.nist.gov/pubs/sp/800/61/r3/final',
+    supports: 'Detection, response, and recovery are organization-wide risk activities that must improve while incidents are occurring.',
+  },
+  nist162: {
+    label: 'NIST SP 800-162 · Attribute-based access control',
+    url: 'https://csrc.nist.gov/pubs/sp/800/162/upd2/final',
+    supports: 'Authorization composes subject, object, operation, environment, attributes, policies, rules, and relationships.',
+  },
+  nist160: {
+    label: 'NIST SP 800-160 Vol. 1 Rev. 1 · Systems security engineering',
+    url: 'https://csrc.nist.gov/pubs/sp/800/160/v1/r1/final',
+    supports: 'Security engineering is an integrative, lifecycle discipline for trustworthy systems operating in contested environments.',
+  },
+}
+
+export const conceptAudit = {
+  'NET-01': {
+    classification: 'The controlled object is interdomain reachability: which routes are learned, preferred, and exported.',
+    adjacent: 'Computer science supplies distributed-state reasoning; security engineering addresses route origin, leaks, and hostile manipulation.',
+    evidence: ['rfc4271', 'rfc7454'],
+  },
+  'NET-02': {
+    classification: 'The controlled object is endpoint reachability and forwarding across a routed underlay and virtual overlay.',
+    adjacent: 'Computer science supplies virtualization and control software; security engineering supplies tenant isolation and control-plane protection.',
+    evidence: ['rfc8365'],
+  },
+  'NET-03': {
+    classification: 'The controlled object is the packet path: explicit forwarding instructions constrained by topology and policy.',
+    adjacent: 'Computer science supplies graph optimization and controller logic; security engineering protects the authority that programs paths.',
+    evidence: ['rfc8402'],
+  },
+  'NET-04': {
+    classification: 'The controlled object is end-to-end reachability across private, carrier, and cloud fabrics.',
+    adjacent: 'Computer science owns service behavior above the path; security engineering owns identity, exposure, and cross-cloud trust.',
+    evidence: ['nist207a'],
+  },
+  'NET-05': {
+    classification: 'The controlled object is intended and observed network behavior across a live device estate.',
+    adjacent: 'Computer science supplies models, compilers, and reconciliation; security engineering protects a highly privileged change system.',
+    evidence: ['rfc8969'],
+  },
+  'NET-06': {
+    classification: 'The controlled object is address-family reachability during a long-lived coexistence and migration program.',
+    adjacent: 'Computer science owns application compatibility; security engineering must keep policy and visibility equivalent across both families.',
+    evidence: ['rfc7381'],
+  },
+  'CS-01': {
+    classification: 'The controlled object is replicated computation: machines must agree on a durable order and state.',
+    adjacent: 'Networks supply an unreliable timing surface; security engineering changes the fault model when members may be malicious.',
+    evidence: ['flp', 'raft'],
+  },
+  'CS-02': {
+    classification: 'The controlled object is program meaning under interleaved execution and relaxed memory visibility.',
+    adjacent: 'Hardware and operating systems realize the memory model; security engineering treats some races as exploitable primitives.',
+    evidence: ['cppMemory', 'cs2023'],
+  },
+  'CS-03': {
+    classification: 'The controlled object is computation and resource semantics at the hardware–application boundary.',
+    adjacent: 'Network stacks live inside the kernel; security engineering depends on isolation and privilege boundaries being correct.',
+    evidence: ['cs2023'],
+  },
+  'CS-04': {
+    classification: 'The controlled object is data semantics: isolation, durability, ordering, replication, and recovery.',
+    adjacent: 'Networks carry coordination messages; security engineering protects data authority and integrity.',
+    evidence: ['spanner', 'cs2023'],
+  },
+  'CS-05': {
+    classification: 'The controlled object is program semantics preserved through analysis and representation changes.',
+    adjacent: 'Security engineering treats the toolchain as a trust boundary; operating systems and processors constrain generated behavior.',
+    evidence: ['cs2023'],
+  },
+  'CS-06': {
+    classification: 'The controlled object is a computational claim: specification, implementation, and proof of conformance.',
+    adjacent: 'Security engineering chooses adversarial properties; network engineering can supply protocols and configurations to verify.',
+    evidence: ['sel4', 'cs2023'],
+  },
+  'SEC-01': {
+    classification: 'The controlled object is confidentiality, integrity, or authentication across an adversarial protocol and key lifecycle.',
+    adjacent: 'Computer science supplies algorithms and implementations; networks transport protocol messages and expose traffic behavior.',
+    evidence: ['nist57', 'nist160'],
+  },
+  'SEC-02': {
+    classification: 'The controlled object is authority: which identity assertion may justify which action across trust domains.',
+    adjacent: 'Computer science implements protocol and policy semantics; networks connect separately administered parties.',
+    evidence: ['nist63c', 'nist162'],
+  },
+  'SEC-03': {
+    classification: 'The controlled object is continuous access assurance across dynamic identities, workloads, services, and environments.',
+    adjacent: 'Networks enforce and carry decisions; computer science supplies the policy, telemetry, and service machinery.',
+    evidence: ['nist207a', 'nist160'],
+  },
+  'SEC-04': {
+    classification: 'The controlled object is trust in software provenance and integrity from source through build, delivery, and operation.',
+    adjacent: 'Computer science builds the toolchain; networks and platforms distribute the resulting artifacts.',
+    evidence: ['nist218', 'nist160'],
+  },
+  'SEC-05': {
+    classification: 'The controlled object is assurance during attack: infer, contain, eradicate, and recover from hostile activity.',
+    adjacent: 'Networks and software supply telemetry, failure modes, and enforcement points.',
+    evidence: ['nist61', 'nist160'],
+  },
+  'SEC-06': {
+    classification: 'The controlled object is effective permission under composed identities, attributes, resources, policies, and delegation.',
+    adjacent: 'Computer science implements policy evaluation; networks and cloud control planes enforce the result.',
+    evidence: ['nist162', 'nist63c'],
+  },
+}
 
 export const dimensionGuide = {
   depth: {
@@ -263,109 +538,109 @@ export const conceptRationales = {
 export const systemsConcepts = [
   {
     id: 'NET-01', field: 'network', name: 'BGP policy & convergence', short: 'BGP policy',
-    depth: 9.1, integration: 9.5, state: 9.7, opacity: 9.2, adversary: 7.1, consequence: 10,
+    depth: 8, integration: 10, state: 10, opacity: 9, adversary: 7,
     core: 'Independent networks exchange reachability while applying business policy and trying to avoid loops.',
     hard: 'No controller sees the whole internet. A locally valid preference can produce globally surprising paths, slow convergence, or a wide blast radius.',
   },
   {
     id: 'NET-02', field: 'network', name: 'EVPN–VXLAN fabric design', short: 'EVPN–VXLAN',
-    depth: 8.4, integration: 9.2, state: 8.8, opacity: 8.4, adversary: 6.8, consequence: 8,
+    depth: 8, integration: 9, state: 9, opacity: 8, adversary: 6,
     core: 'A control plane distributes endpoint reachability across a routed underlay while overlays preserve tenant segmentation.',
     hard: 'The failure may sit in the underlay, overlay, control plane, endpoint learning, or policy—even when the symptom looks identical.',
   },
   {
     id: 'NET-03', field: 'network', name: 'Segment routing & traffic engineering', short: 'Segment routing',
-    depth: 8.9, integration: 8.8, state: 9.0, opacity: 8.6, adversary: 6.5, consequence: 9,
+    depth: 9, integration: 8, state: 9, opacity: 8, adversary: 5,
     core: 'Paths become programmable instructions constrained by topology, capacity, latency, and fast reroute requirements.',
     hard: 'Optimization happens over a moving graph, and the control policy must remain safe through failures and reconvergence.',
   },
   {
     id: 'NET-04', field: 'network', name: 'Hybrid multi-cloud connectivity', short: 'Hybrid cloud',
-    depth: 8.0, integration: 9.8, state: 8.6, opacity: 9.2, adversary: 7.8, consequence: 9,
+    depth: 6, integration: 10, state: 9, opacity: 10, adversary: 7,
     core: 'Private networks, cloud fabrics, internet edges, DNS, load balancers, and overlapping ownership must act as one service path.',
     hard: 'Each provider exposes a different control model, and troubleshooting crosses boundaries where telemetry and authority disappear.',
   },
   {
     id: 'NET-05', field: 'network', name: 'Intent automation & source of truth', short: 'Network automation',
-    depth: 7.9, integration: 9.4, state: 8.3, opacity: 8.9, adversary: 7.2, consequence: 9,
+    depth: 7, integration: 9, state: 8, opacity: 8, adversary: 7,
     core: 'Declarative intent is translated into thousands of device-specific changes and reconciled against live state.',
     hard: 'The automation can be perfectly consistent and still encode the wrong intent—at machine speed and infrastructure scale.',
   },
   {
     id: 'NET-06', field: 'network', name: 'IPv6 transition & coexistence', short: 'IPv6 transition',
-    depth: 7.6, integration: 9.1, state: 7.8, opacity: 8.8, adversary: 6.8, consequence: 8,
+    depth: 6, integration: 9, state: 7, opacity: 8, adversary: 6,
     core: 'Dual-stack, translation, addressing, discovery, DNS, security policy, and application assumptions must coexist during migration.',
     hard: 'The transition is not one protocol swap; it is a long-lived compatibility system with two failure surfaces.',
   },
   {
     id: 'CS-01', field: 'computer', name: 'Distributed consensus & replication', short: 'Consensus',
-    depth: 9.9, integration: 9.0, state: 10.0, opacity: 9.7, adversary: 5.6, consequence: 10,
+    depth: 10, integration: 8, state: 10, opacity: 9, adversary: 2,
     core: 'Independent machines must agree on durable order despite delay, duplication, partition, restart, and partial failure.',
     hard: 'Timing cannot reliably distinguish a dead node from a slow one, yet safety and useful progress must both survive.',
   },
   {
     id: 'CS-02', field: 'computer', name: 'Concurrency & memory models', short: 'Concurrency',
-    depth: 9.8, integration: 7.8, state: 9.8, opacity: 9.8, adversary: 4.8, consequence: 8,
+    depth: 10, integration: 6, state: 10, opacity: 10, adversary: 3,
     core: 'Many operations interleave while hardware, compilers, runtimes, and languages expose different ordering guarantees.',
     hard: 'The number of possible schedules explodes, and rare races can vanish under observation.',
   },
   {
     id: 'CS-03', field: 'computer', name: 'Operating systems, kernels & runtimes', short: 'Kernels & runtimes',
-    depth: 9.4, integration: 9.1, state: 9.3, opacity: 9.4, adversary: 6.5, consequence: 10,
+    depth: 9, integration: 9, state: 9, opacity: 9, adversary: 6,
     core: 'Scheduling, virtual memory, I/O, isolation, filesystems, and hardware meet at the narrowest layer of the stack.',
     hard: 'Tiny mistakes cross privilege and process boundaries, while performance depends on invisible interactions below application code.',
   },
   {
     id: 'CS-04', field: 'computer', name: 'Database engines & distributed transactions', short: 'Transactions',
-    depth: 9.5, integration: 9.4, state: 9.8, opacity: 9.6, adversary: 5.8, consequence: 10,
+    depth: 9, integration: 9, state: 10, opacity: 9, adversary: 5,
     core: 'Storage, indexing, query planning, replication, isolation, and recovery must preserve useful semantics under load and failure.',
     hard: 'Every guarantee trades against latency, availability, coordination, and the shape of real workloads.',
   },
   {
     id: 'CS-05', field: 'computer', name: 'Compilers & static analysis', short: 'Compilers',
-    depth: 9.6, integration: 8.6, state: 7.4, opacity: 9.0, adversary: 5.0, consequence: 8,
+    depth: 9, integration: 7, state: 6, opacity: 8, adversary: 4,
     core: 'Human intent is transformed through parsing, semantics, optimization, code generation, and machine execution.',
     hard: 'An optimization must change the program radically without changing what the program means.',
   },
   {
     id: 'CS-06', field: 'computer', name: 'Formal methods & verification', short: 'Formal verification',
-    depth: 10.0, integration: 7.7, state: 7.1, opacity: 8.6, adversary: 4.6, consequence: 9,
+    depth: 10, integration: 6, state: 7, opacity: 8, adversary: 4,
     core: 'A system and its required properties are expressed precisely enough for proofs or exhaustive model exploration.',
     hard: 'The proof can only be as meaningful as the model, while real systems resist being reduced without losing important behavior.',
   },
   {
     id: 'SEC-01', field: 'security', name: 'Cryptographic protocol & key lifecycle', short: 'Crypto & keys',
-    depth: 9.8, integration: 9.2, state: 8.8, opacity: 9.7, adversary: 10.0, consequence: 10,
+    depth: 10, integration: 9, state: 8, opacity: 9, adversary: 10,
     core: 'Algorithms, protocol states, identities, randomness, storage, rotation, revocation, and recovery form one trust system.',
     hard: 'Sound primitives still fail through composition, implementation, side channels, key handling, or a mistaken threat model.',
   },
   {
     id: 'SEC-02', field: 'security', name: 'Identity federation & authorization', short: 'Identity federation',
-    depth: 8.9, integration: 9.9, state: 9.2, opacity: 9.5, adversary: 9.8, consequence: 10,
+    depth: 8, integration: 10, state: 9, opacity: 9, adversary: 10,
     core: 'People, services, devices, credentials, claims, roles, policies, and organizations exchange authority across trust boundaries.',
     hard: 'Authentication answers who; authorization answers what, where, when, and why—and stale authority is often invisible.',
   },
   {
     id: 'SEC-03', field: 'security', name: 'Zero-trust multi-cloud enforcement', short: 'Zero-trust cloud',
-    depth: 8.8, integration: 10.0, state: 9.1, opacity: 9.6, adversary: 9.9, consequence: 10,
+    depth: 7, integration: 10, state: 9, opacity: 9, adversary: 10,
     core: 'Identity-aware policy must follow users, workloads, data, devices, gateways, and services across on-premises and cloud environments.',
     hard: 'A consistent decision depends on fresh identity, posture, telemetry, network context, and enforcement that no single platform owns.',
   },
   {
     id: 'SEC-04', field: 'security', name: 'Software supply-chain security', short: 'Supply chain',
-    depth: 8.5, integration: 10.0, state: 8.6, opacity: 9.5, adversary: 10.0, consequence: 10,
+    depth: 7, integration: 10, state: 8, opacity: 9, adversary: 10,
     core: 'Source, dependencies, builders, artifacts, registries, deployment, provenance, and runtime must preserve an evidence chain.',
     hard: 'Trust crosses many organizations and tools; one compromised upstream component can inherit downstream privilege at scale.',
   },
   {
     id: 'SEC-05', field: 'security', name: 'Detection engineering & incident response', short: 'Detection & response',
-    depth: 8.2, integration: 9.6, state: 10.0, opacity: 10.0, adversary: 10.0, consequence: 10,
+    depth: 7, integration: 10, state: 10, opacity: 10, adversary: 10,
     core: 'Telemetry from endpoints, identity, cloud, applications, and networks must become a defensible story quickly enough to act.',
     hard: 'The evidence is incomplete, the system keeps changing, and the opponent can observe and adapt to the response.',
   },
   {
     id: 'SEC-06', field: 'security', name: 'Cloud IAM & policy composition', short: 'Cloud IAM',
-    depth: 9.0, integration: 9.9, state: 9.4, opacity: 9.8, adversary: 9.9, consequence: 10,
+    depth: 8, integration: 10, state: 9, opacity: 10, adversary: 10,
     core: 'Grants, denies, inheritance, resource policy, federation, temporary credentials, and service identities compose into effective access.',
     hard: 'The real permission is an emergent result of policies scattered across principals, resources, accounts, and organizations.',
   },

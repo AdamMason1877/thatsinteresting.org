@@ -1,11 +1,16 @@
 import { useMemo, useState } from 'react'
 import {
+  categoryRule,
   complexityDimensions,
+  complexityThreshold,
+  conceptAudit,
   conceptRationales,
   dimensionGuide,
   dimensionAverage,
   disciplineMeta,
+  evidenceLibrary,
   integrationJunctions,
+  scoreAnchors,
   systemsConcepts,
 } from '../content/systemsComplexityData.js'
 
@@ -13,22 +18,22 @@ const fieldOrder = ['network', 'computer', 'security']
 
 const metricInsights = [
   {
-    label: 'Deepest abstraction',
-    value: 'Formal verification',
-    summary: 'Computer science reaches furthest into proof, models, and semantics.',
-    why: 'Formal verification receives the only 10.0 depth score because the system, the required property, and the reasoning that connects them must all be stated precisely. It does not lead the integration axis because verification usually makes progress by bounding or abstracting the surrounding world.',
+    label: 'Highest depth band',
+    value: 'Proof + ordering',
+    summary: 'Consensus, concurrency, formal verification, and cryptography all require proof-level precision.',
+    why: 'A 10 does not mean these concepts are equally difficult in every situation. It means the same depth anchor applies: small changes to assumptions can alter what can be guaranteed. Their other scores separate them—concurrency and formal verification are more bounded, while cryptography integrates a larger operational lifecycle.',
   },
   {
-    label: 'Widest integration',
-    value: 'Zero-trust cloud',
-    summary: 'Identity, policy, services, networks, and telemetry cross ownership boundaries.',
-    why: 'Zero-trust multi-cloud enforcement receives the 10.0 integration score because a single access decision may depend on identity, device posture, workload identity, network context, service policy, data sensitivity, and threat telemetry spread across several platforms.',
+    label: 'Widest integration band',
+    value: 'No single owner',
+    summary: 'BGP, hybrid cloud, identity, zero trust, supply chain, response, and cloud IAM reach ecosystem scale.',
+    why: 'Each receives a 10 because the outcome crosses organizational or provider boundaries and no owner has complete end-to-end control. The score does not say their architectures are identical; it says they meet the same published integration anchor.',
   },
   {
     label: 'Most live state',
     value: 'Consensus + response',
     summary: 'Both reason about systems that change while the decision is being made.',
-    why: 'Consensus and incident response both receive 10.0 for dynamic state, but for different reasons. Consensus must preserve order through asynchronous machine events; response must reconstruct incomplete human and system activity while both the environment and the opponent continue to change.',
+    why: 'Consensus and incident response both receive 10 for dynamic state, but for different reasons. Consensus must preserve order through asynchronous machine events; response must reconstruct incomplete human and system activity while both the environment and the opponent continue to change.',
   },
   {
     label: 'Added security tax',
@@ -42,23 +47,44 @@ function ScoringGuide() {
   return (
     <details className="scoring-guide">
       <summary>
-        <span><b>How to read the index</b> What each score measures and why the map begins at 7.2</span>
+        <span><b>How to audit the index</b> Every integer, category rule, and quadrant boundary</span>
         <strong>Open methodology <i aria-hidden="true">+</i></strong>
       </summary>
       <div className="scoring-guide__body">
         <p>
-          This atlas begins with eighteen deliberately difficult production-scale concepts, so the visible range is the upper end of a 1–10 scale. A 7 is already substantial; 8 means the dimension is a defining source of difficulty; 9 means it dominates the work; 10 is reserved for an extreme in this comparison set.
+          This is an ordinal editorial index, not a measured natural quantity. Primary sources establish what each concept requires; the written anchor below determines the integer assigned. The full 1–10 range stays visible even though this deliberately selected set clusters near the difficult end.
         </p>
-        <div>
+        <p>
+          The dashed lines sit at {complexityThreshold} because that is where the rubric first says a dimension is <em>defining</em>. They are interpretive thresholds—not a median, percentile, or claim that 7 is a universal boundary between easy and hard.
+        </p>
+        <section className="category-guide">
+          <header><span>Category rule</span><strong>{categoryRule.title}</strong><p>{categoryRule.copy}</p></header>
+          <div>
+            {fieldOrder.map((field) => (
+              <article data-field={field} key={field}>
+                <span>{categoryRule[field].label}</span>
+                <p>{categoryRule[field].rule}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+        <div className="scoring-rubric">
           {complexityDimensions.map((dimension) => (
-            <article key={dimension.key}>
-              <span>{dimension.label}</span>
-              <strong>{dimensionGuide[dimension.key].question}</strong>
+            <details key={dimension.key}>
+              <summary>
+                <span><b>{dimension.label}</b>{dimensionGuide[dimension.key].question}</span>
+                <strong>1–10 anchors <i aria-hidden="true">+</i></strong>
+              </summary>
               <p>{dimensionGuide[dimension.key].meaning}</p>
-            </article>
+              <ol>
+                {Object.entries(scoreAnchors[dimension.key]).map(([score, anchor]) => (
+                  <li key={score}><b>{score}</b><span>{anchor}</span></li>
+                ))}
+              </ol>
+            </details>
           ))}
         </div>
-        <small>Scores describe the shape of a problem, not the intelligence, seniority, or value of the people working on it.</small>
+        <small>Scores describe the shape of a production-scale problem, not the intelligence, seniority, or value of the people working on it. They can change with scope, scale, tooling, legacy constraints, regulation, and threat model.</small>
       </div>
     </details>
   )
@@ -66,7 +92,8 @@ function ScoringGuide() {
 
 function ConceptReasoning({ concept, label = 'Why these indicators?' }) {
   const rationale = conceptRationales[concept.id]
-  if (!rationale) return null
+  const audit = conceptAudit[concept.id]
+  if (!rationale || !audit) return null
 
   return (
     <details className="concept-reasoning" style={{ '--field-color': disciplineMeta[concept.field].color }}>
@@ -76,13 +103,34 @@ function ConceptReasoning({ concept, label = 'Why these indicators?' }) {
       </summary>
       <div className="concept-reasoning__body">
         <p className="concept-reasoning__position"><b>Why it sits here</b>{rationale.position}</p>
+        <div className="concept-classification">
+          <span>Why {disciplineMeta[concept.field].name}?</span>
+          <strong>{audit.classification}</strong>
+          <p><b>Adjacent fields</b>{audit.adjacent}</p>
+        </div>
         <div className="concept-reasoning__drivers">
           {complexityDimensions.map((dimension) => (
             <article key={dimension.key}>
-              <header><span>{dimension.label}</span><strong>{concept[dimension.key].toFixed(1)}</strong></header>
+              <header><span>{dimension.label}</span><strong>{concept[dimension.key]}</strong></header>
               <p>{rationale.drivers[dimension.key]}</p>
+              <small><b>What {concept[dimension.key]} means</b>{scoreAnchors[dimension.key][concept[dimension.key]]}</small>
             </article>
           ))}
+        </div>
+        <div className="concept-evidence">
+          <span>Evidence used to map this concept</span>
+          <div>
+            {audit.evidence.map((sourceKey) => {
+              const source = evidenceLibrary[sourceKey]
+              return (
+                <a href={source.url} target="_blank" rel="noreferrer" key={sourceKey}>
+                  <strong>{source.label}</strong>
+                  <p>{source.supports}</p>
+                  <i aria-hidden="true">↗</i>
+                </a>
+              )
+            })}
+          </div>
         </div>
         <div className="concept-reasoning__next">
           <span>Go one level deeper</span>
@@ -100,7 +148,7 @@ function DimensionBars({ concept }) {
         <div className="concept-dimension" key={dimension.key}>
           <span>{dimension.label}</span>
           <i><b style={{ width: `${concept[dimension.key] * 10}%` }} /></i>
-          <strong>{concept[dimension.key].toFixed(1)}</strong>
+          <strong>{concept[dimension.key]}</strong>
         </div>
       ))}
     </div>
@@ -132,11 +180,18 @@ export function ComplexityMap() {
   const W = 980
   const H = 580
   const M = { top: 42, right: 34, bottom: 76, left: 78 }
-  const min = 7.2
-  const max = 10.2
+  const min = 1
+  const max = 10
   const x = (value) => M.left + ((value - min) / (max - min)) * (W - M.left - M.right)
   const y = (value) => H - M.bottom - ((value - min) / (max - min)) * (H - M.top - M.bottom)
-  const ticks = [7.5, 8, 8.5, 9, 9.5, 10]
+  const ticks = [1, 3, 5, 7, 9, 10]
+  const pointOffset = (concept) => {
+    const matches = systemsConcepts.filter((candidate) => candidate.depth === concept.depth && candidate.integration === concept.integration)
+    if (matches.length === 1) return 0
+    const index = matches.findIndex((candidate) => candidate.id === concept.id)
+    if (concept.depth >= 9) return index * -15
+    return (index - ((matches.length - 1) / 2)) * 15
+  }
 
   return (
     <div className="complexity-atlas">
@@ -178,11 +233,12 @@ export function ComplexityMap() {
           </g>
 
           <g className="complexity-quadrants" aria-hidden="true">
-            <line x1={x(8.75)} x2={x(8.75)} y1={M.top} y2={H - M.bottom} />
-            <line x1={M.left} x2={W - M.right} y1={y(8.75)} y2={y(8.75)} />
-            <text x={M.left + 14} y={M.top + 20}>WIDE SYSTEM / LOWER ABSTRACTION</text>
-            <text x={W - M.right - 14} y={M.top + 20} textAnchor="end">THE HARD CORNER</text>
-            <text x={W - M.right - 14} y={H - M.bottom - 15} textAnchor="end">DEEPER / MORE CONTAINED</text>
+            <line x1={x(complexityThreshold)} x2={x(complexityThreshold)} y1={M.top} y2={H - M.bottom} />
+            <line x1={M.left} x2={W - M.right} y1={y(complexityThreshold)} y2={y(complexityThreshold)} />
+            <text x={M.left + 14} y={M.top + 20}>COORDINATION-DOMINANT</text>
+            <text x={W - M.right - 14} y={M.top + 20} textAnchor="end">COMPOUND COMPLEXITY</text>
+            <text x={M.left + 14} y={H - M.bottom - 15}>BOUNDED IMPLEMENTATION</text>
+            <text x={W - M.right - 14} y={H - M.bottom - 15} textAnchor="end">MODEL-BOUND DEPTH</text>
           </g>
 
           <g className="complexity-points">
@@ -194,7 +250,7 @@ export function ComplexityMap() {
                   key={concept.id}
                   className={`${isActive ? 'is-active' : ''} ${isMuted ? 'is-muted' : ''}`}
                   data-field={concept.field}
-                  transform={`translate(${x(concept.depth)} ${y(concept.integration)})`}
+                  transform={`translate(${x(concept.depth) + pointOffset(concept)} ${y(concept.integration)})`}
                   role="button"
                   tabIndex="0"
                   aria-label={`${concept.name}: conceptual depth ${concept.depth}, integration span ${concept.integration}`}
@@ -208,7 +264,7 @@ export function ComplexityMap() {
                     }
                   }}
                 >
-                  <circle r={isActive ? 16 : 12 + ((concept.consequence - 8) * 1.5)} />
+                  <circle r={isActive ? 16 : 12} />
                   <text textAnchor="middle" y="3">{concept.id.split('-')[1]}</text>
                 </g>
               )
@@ -230,7 +286,7 @@ export function ComplexityMap() {
         <DimensionBars concept={active} />
         <ConceptReasoning concept={active} />
       </aside>
-      <p className="chart-hint">Filter by discipline, then hover, tap, or tab through the numbered points.</p>
+      <p className="chart-hint">The full 1–10 scale is shown. Dashed lines mark the published score-7 “defining constraint” anchor. Markers are equal-sized; exact-score overlaps are separated slightly for selection only. Filter by discipline, then hover, tap, or tab through the numbered points.</p>
     </div>
   )
 }
@@ -389,7 +445,7 @@ export function ComplexityTable() {
                 </button>
               </td>
               <td>{disciplineMeta[concept.field].short}</td>
-              {complexityDimensions.map((dimension) => <td key={dimension.key}>{concept[dimension.key].toFixed(1)}</td>)}
+              {complexityDimensions.map((dimension) => <td key={dimension.key}>{concept[dimension.key]}</td>)}
             </tr>
           ))}
         </tbody>
