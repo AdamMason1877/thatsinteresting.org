@@ -3293,18 +3293,6 @@ a:focus-visible .arrow {
     linear-gradient(90deg, rgba(3, 3, 3, .52) 0%, rgba(3, 3, 3, .08) 56%, rgba(3, 3, 3, .16) 100%);
 }
 
-.home-loop-hero__stamp {
-  position: absolute;
-  inset: 28px 34px auto;
-  z-index: 3;
-  display: flex;
-  justify-content: space-between;
-  color: rgba(239, 238, 233, .62);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: -.01em;
-}
-
 .home-page--field .home-loop-hero__copy {
   width: min(760px, calc(100% - 68px));
   left: 34px;
@@ -3825,11 +3813,6 @@ a:focus-visible .arrow {
     background:
       linear-gradient(0deg, rgba(3, 3, 3, .98) 0%, rgba(3, 3, 3, .78) 48%, rgba(3, 3, 3, .07) 76%),
       linear-gradient(90deg, rgba(3, 3, 3, .26), transparent 72%);
-  }
-
-  .home-loop-hero__stamp {
-    inset: 18px 20px auto;
-    font-size: 11px;
   }
 
   .home-page--field .home-loop-hero__copy {

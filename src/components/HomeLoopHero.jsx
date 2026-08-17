@@ -72,11 +72,6 @@ export default function HomeLoopHero({ experience }) {
         <div className="home-loop-hero__veil" aria-hidden="true" />
       </div>
 
-      <div className="home-loop-hero__stamp" aria-hidden="true">
-        <span>That’s Interesting</span>
-        <span>Film 00:20</span>
-      </div>
-
       <div className="home-loop-hero__copy">
         <h1 id="home-loop-title">
           Nothing is interesting <span>alone.</span>
