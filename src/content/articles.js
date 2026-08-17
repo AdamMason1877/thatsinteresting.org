@@ -86,7 +86,7 @@ export const articles = [
         paragraphs: [
           'Start with the plain-English tour. Choose a field and the atlas translates six difficult concepts into the everyday problem each one is trying to solve. “Precision” asks how exact the thinking must be; “coordination” asks how many systems and owners must agree.',
           'When you want the graph, switch to the technical map. Move right for deeper abstraction and move up for wider integration. Its dashed lines sit at 7 because that is the first rubric anchor where a dimension becomes a defining constraint—not because 7 is a percentile or universal boundary.',
-          'Select any card or point for the five-part profile. Open “How to audit the index” for all fifty score anchors and the category rule, then “Why these indicators?” for the concept-specific evidence, field assignment, and primary sources.',
+          'Select any card to open a full, multi-paragraph explanation of its placement, field assignment, five scores, failure behavior, next questions, and primary evidence. In the technical map, selecting a point opens the compact profile and the same auditable reasoning.',
         ],
         module: 'complexity-map',
       },

@@ -155,6 +155,80 @@ function DimensionBars({ concept }) {
   )
 }
 
+function GuidedConceptExplanation({ concept }) {
+  const rationale = conceptRationales[concept.id]
+  const audit = conceptAudit[concept.id]
+
+  return (
+    <article
+      className="guided-concept-explanation"
+      id="guided-concept-explanation"
+      style={{ '--field-color': disciplineMeta[concept.field].color }}
+      aria-live="polite"
+    >
+      <header>
+        <div>
+          <span>{concept.id} · full explanation</span>
+          <h3>{concept.name}</h3>
+          <p>{audit.plain}</p>
+        </div>
+        <DimensionBars concept={concept} />
+      </header>
+
+      <div className="guided-concept-explanation__body">
+        <section>
+          <span>Why it is positioned here</span>
+          <p>{rationale.position}</p>
+          <p><b>Why this belongs primarily to {disciplineMeta[concept.field].name}.</b> {audit.classification}</p>
+          <p><b>Why the boundaries still overlap.</b> {audit.adjacent}</p>
+        </section>
+
+        <section>
+          <span>The two scores visible on the tile</span>
+          <p><b>Precision · {concept.depth}/10.</b> {rationale.drivers.depth} On this rubric, that score means: {scoreAnchors.depth[concept.depth]}</p>
+          <p><b>Coordination · {concept.integration}/10.</b> {rationale.drivers.integration} On this rubric, that score means: {scoreAnchors.integration[concept.integration]}</p>
+        </section>
+
+        <section>
+          <span>What becomes difficult in a live system</span>
+          <p><b>Changing state · {concept.state}/10.</b> {rationale.drivers.state} The score reflects this anchor: {scoreAnchors.state[concept.state]}</p>
+          <p><b>Finding the real cause · {concept.opacity}/10.</b> {rationale.drivers.opacity} The score reflects this anchor: {scoreAnchors.opacity[concept.opacity]}</p>
+          <p><b>Pressure from an attacker · {concept.adversary}/10.</b> {rationale.drivers.adversary} The score reflects this anchor: {scoreAnchors.adversary[concept.adversary]}</p>
+        </section>
+
+        <blockquote>
+          <span>The practical reason it stays hard</span>
+          <p>{concept.hard}</p>
+          <p>{concept.core}</p>
+        </blockquote>
+
+        <section className="guided-concept-explanation__questions">
+          <span>Questions that take the idea one level deeper</span>
+          {rationale.investigate.map((question, index) => (
+            <p key={question}><b>Question {index + 1}.</b> {question}</p>
+          ))}
+        </section>
+
+        <section className="guided-concept-explanation__sources">
+          <span>Primary evidence behind the reasoning</span>
+          <div>
+            {audit.evidence.map((sourceKey) => {
+              const source = evidenceLibrary[sourceKey]
+              return (
+                <a href={source.url} target="_blank" rel="noreferrer" key={sourceKey}>
+                  <strong>{source.label}</strong>
+                  <p>{source.supports}</p>
+                  <i aria-hidden="true">↗</i>
+                </a>
+              )
+            })}
+          </div>
+        </section>
+      </div>
+    </article>
+  )
+}
+
 export function ComplexityMetrics() {
   return (
     <div className="metrics-strip complexity-metrics">
@@ -200,6 +274,15 @@ export function ComplexityMap() {
     if (nextField !== 'all') {
       setActiveId(systemsConcepts.find((concept) => concept.field === nextField)?.id ?? systemsConcepts[0].id)
     }
+  }
+
+  const openGuidedConcept = (conceptId) => {
+    setActiveId(conceptId)
+    window.requestAnimationFrame(() => {
+      const target = document.getElementById('guided-concept-explanation')
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      target?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' })
+    })
   }
 
   const balanceLabel = (concept) => {
@@ -262,7 +345,7 @@ export function ComplexityMap() {
                 type="button"
                 className={concept.id === activeId ? 'is-active' : ''}
                 key={concept.id}
-                onClick={() => setActiveId(concept.id)}
+                onClick={() => openGuidedConcept(concept.id)}
                 aria-pressed={concept.id === activeId}
               >
                 <span>{concept.id} · {balanceLabel(concept)}</span>
@@ -271,11 +354,13 @@ export function ComplexityMap() {
                 <footer>
                   <span>Precision <b>{concept.depth}/10</b></span>
                   <span>Coordination <b>{concept.integration}/10</b></span>
+                  <span className="complexity-guided__action">{concept.id === activeId ? 'Explanation open' : 'Read full explanation'} ↓</span>
                 </footer>
               </button>
             ))}
           </div>
-          <p className="complexity-guided__hint">Select any card for its five-part profile below. The technical map preserves the full two-axis comparison when you want it.</p>
+          <p className="complexity-guided__hint">Select any card to open its complete reasoning below. The technical map preserves the full two-axis comparison when you want it.</p>
+          <GuidedConceptExplanation concept={active} />
         </section>
       ) : (
         <div className="complexity-atlas__plot">
@@ -348,16 +433,18 @@ export function ComplexityMap() {
         </div>
       )}
 
-      <aside className="complexity-detail" style={{ '--field-color': disciplineMeta[active.field].color }} aria-live="polite">
-        <div className="complexity-detail__copy">
-          <span>{active.id} · {disciplineMeta[active.field].name}</span>
-          <h3>{active.name}</h3>
-          <p>{active.core}</p>
-          <blockquote><b>Why it stays hard</b>{active.hard}</blockquote>
-        </div>
-        <DimensionBars concept={active} />
-        <ConceptReasoning concept={active} />
-      </aside>
+      {view === 'technical' && (
+        <aside className="complexity-detail" style={{ '--field-color': disciplineMeta[active.field].color }} aria-live="polite">
+          <div className="complexity-detail__copy">
+            <span>{active.id} · {disciplineMeta[active.field].name}</span>
+            <h3>{active.name}</h3>
+            <p>{active.core}</p>
+            <blockquote><b>Why it stays hard</b>{active.hard}</blockquote>
+          </div>
+          <DimensionBars concept={active} />
+          <ConceptReasoning concept={active} />
+        </aside>
+      )}
       <p className="chart-hint">Scores remain the same in both views. The guided cards translate the two graph axes into ordinary language; the technical map retains the full 1–10 scale and score-7 threshold.</p>
     </div>
   )
