@@ -174,9 +174,11 @@ export function ComplexityMetrics() {
 }
 
 export function ComplexityMap() {
-  const [field, setField] = useState('all')
-  const [activeId, setActiveId] = useState('SEC-03')
+  const [view, setView] = useState('guided')
+  const [field, setField] = useState('network')
+  const [activeId, setActiveId] = useState('NET-01')
   const active = systemsConcepts.find((concept) => concept.id === activeId) ?? systemsConcepts[0]
+  const guidedConcepts = systemsConcepts.filter((concept) => concept.field === field)
   const W = 980
   const H = 580
   const M = { top: 42, right: 34, bottom: 76, left: 78 }
@@ -193,88 +195,158 @@ export function ComplexityMap() {
     return (index - ((matches.length - 1) / 2)) * 15
   }
 
+  const chooseField = (nextField) => {
+    setField(nextField)
+    if (nextField !== 'all') {
+      setActiveId(systemsConcepts.find((concept) => concept.field === nextField)?.id ?? systemsConcepts[0].id)
+    }
+  }
+
+  const balanceLabel = (concept) => {
+    const difference = concept.depth - concept.integration
+    if (difference >= 2) return 'Precision is the bigger challenge'
+    if (difference <= -2) return 'Coordination is the bigger challenge'
+    return 'Precision and coordination combine'
+  }
+
   return (
     <div className="complexity-atlas">
-      <div className="complexity-atlas__toolbar" aria-label="Filter concepts by discipline">
-        <button type="button" className={field === 'all' ? 'is-active' : ''} onClick={() => setField('all')}>All 18</button>
+      <div className="complexity-view-switch" role="group" aria-label="Choose how to explore the complexity comparison">
+        <button type="button" className={view === 'guided' ? 'is-active' : ''} onClick={() => { setView('guided'); if (field === 'all') chooseField('network') }}>
+          <span>Start here</span>
+          <strong>Plain-English tour</strong>
+          <small>Six readable ideas at a time</small>
+        </button>
+        <button type="button" className={view === 'technical' ? 'is-active' : ''} onClick={() => setView('technical')}>
+          <span>Go deeper</span>
+          <strong>Technical map</strong>
+          <small>All scores on two axes</small>
+        </button>
+      </div>
+
+      <ScoringGuide />
+
+      <div className="complexity-atlas__toolbar" aria-label={view === 'guided' ? 'Choose a discipline' : 'Filter concepts by discipline'}>
+        <span>{view === 'guided' ? 'Choose a field' : 'Highlight a field'}</span>
+        {view === 'technical' && <button type="button" className={field === 'all' ? 'is-active' : ''} onClick={() => chooseField('all')}>All 18</button>}
         {fieldOrder.map((key) => (
           <button
             type="button"
             className={field === key ? 'is-active' : ''}
             data-field={key}
             key={key}
-            onClick={() => setField(key)}
+            onClick={() => chooseField(key)}
           >
             <i /> {disciplineMeta[key].name}
           </button>
         ))}
       </div>
 
-      <ScoringGuide />
-
-      <div className="complexity-atlas__plot">
-        <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="complexity-map-title complexity-map-desc">
-          <title id="complexity-map-title">Conceptual depth versus integration span</title>
-          <desc id="complexity-map-desc">Eighteen difficult concepts from network engineering, computer science, and security engineering. Select a labeled point to inspect its five-dimension profile.</desc>
-
-          <g className="complexity-grid">
-            {ticks.map((tick) => (
-              <g key={`x-${tick}`}>
-                <line x1={x(tick)} x2={x(tick)} y1={M.top} y2={H - M.bottom} />
-                <text x={x(tick)} y={H - M.bottom + 27} textAnchor="middle">{tick}</text>
-              </g>
+      {view === 'guided' ? (
+        <section className="complexity-guided" data-field={field} aria-labelledby="guided-complexity-title">
+          <header>
+            <div>
+              <span>{disciplineMeta[field].short} · the plain-language question</span>
+              <h3 id="guided-complexity-title">{disciplineMeta[field].readerQuestion}</h3>
+              <p>{disciplineMeta[field].readerTakeaway}</p>
+            </div>
+            <aside>
+              <span>How to read the cards</span>
+              <p><b>Precision</b> asks how exact the thinking must be.</p>
+              <p><b>Coordination</b> asks how many systems and owners must agree.</p>
+            </aside>
+          </header>
+          <div className="complexity-guided__cards">
+            {guidedConcepts.map((concept) => (
+              <button
+                type="button"
+                className={concept.id === activeId ? 'is-active' : ''}
+                key={concept.id}
+                onClick={() => setActiveId(concept.id)}
+                aria-pressed={concept.id === activeId}
+              >
+                <span>{concept.id} · {balanceLabel(concept)}</span>
+                <strong>{concept.name}</strong>
+                <p>{conceptAudit[concept.id].plain}</p>
+                <footer>
+                  <span>Precision <b>{concept.depth}/10</b></span>
+                  <span>Coordination <b>{concept.integration}/10</b></span>
+                </footer>
+              </button>
             ))}
-            {ticks.map((tick) => (
-              <g key={`y-${tick}`}>
-                <line x1={M.left} x2={W - M.right} y1={y(tick)} y2={y(tick)} />
-                <text x={M.left - 15} y={y(tick) + 4} textAnchor="end">{tick}</text>
-              </g>
-            ))}
-          </g>
+          </div>
+          <p className="complexity-guided__hint">Select any card for its five-part profile below. The technical map preserves the full two-axis comparison when you want it.</p>
+        </section>
+      ) : (
+        <div className="complexity-atlas__plot">
+          <div className="complexity-plot-key">
+            <p><b>Move right</b> when a concept needs more exact theory or semantics.</p>
+            <p><b>Move up</b> when more systems, teams, or organizations must cooperate.</p>
+            <small>The lower half is sparse because this atlas intentionally begins with difficult production-scale concepts.</small>
+          </div>
+          <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="complexity-map-title complexity-map-desc">
+            <title id="complexity-map-title">Technical map of exact thinking versus system coordination</title>
+            <desc id="complexity-map-desc">Eighteen difficult concepts from network engineering, computer science, and security engineering. Move right for more exact theory and up for more systems that must cooperate.</desc>
 
-          <g className="complexity-quadrants" aria-hidden="true">
-            <line x1={x(complexityThreshold)} x2={x(complexityThreshold)} y1={M.top} y2={H - M.bottom} />
-            <line x1={M.left} x2={W - M.right} y1={y(complexityThreshold)} y2={y(complexityThreshold)} />
-            <text x={M.left + 14} y={M.top + 20}>COORDINATION-DOMINANT</text>
-            <text x={W - M.right - 14} y={M.top + 20} textAnchor="end">COMPOUND COMPLEXITY</text>
-            <text x={M.left + 14} y={H - M.bottom - 15}>BOUNDED IMPLEMENTATION</text>
-            <text x={W - M.right - 14} y={H - M.bottom - 15} textAnchor="end">MODEL-BOUND DEPTH</text>
-          </g>
-
-          <g className="complexity-points">
-            {systemsConcepts.map((concept) => {
-              const isActive = concept.id === activeId
-              const isMuted = field !== 'all' && field !== concept.field
-              return (
-                <g
-                  key={concept.id}
-                  className={`${isActive ? 'is-active' : ''} ${isMuted ? 'is-muted' : ''}`}
-                  data-field={concept.field}
-                  transform={`translate(${x(concept.depth) + pointOffset(concept)} ${y(concept.integration)})`}
-                  role="button"
-                  tabIndex="0"
-                  aria-label={`${concept.name}: conceptual depth ${concept.depth}, integration span ${concept.integration}`}
-                  onMouseEnter={() => setActiveId(concept.id)}
-                  onFocus={() => setActiveId(concept.id)}
-                  onClick={() => setActiveId(concept.id)}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                      event.preventDefault()
-                      setActiveId(concept.id)
-                    }
-                  }}
-                >
-                  <circle r={isActive ? 16 : 12} />
-                  <text textAnchor="middle" y="3">{concept.id.split('-')[1]}</text>
+            <g className="complexity-grid">
+              {ticks.map((tick) => (
+                <g key={`x-${tick}`}>
+                  <line x1={x(tick)} x2={x(tick)} y1={M.top} y2={H - M.bottom} />
+                  <text x={x(tick)} y={H - M.bottom + 27} textAnchor="middle">{tick}</text>
                 </g>
-              )
-            })}
-          </g>
+              ))}
+              {ticks.map((tick) => (
+                <g key={`y-${tick}`}>
+                  <line x1={M.left} x2={W - M.right} y1={y(tick)} y2={y(tick)} />
+                  <text x={M.left - 15} y={y(tick) + 4} textAnchor="end">{tick}</text>
+                </g>
+              ))}
+            </g>
 
-          <text className="complexity-axis-title" x={(M.left + W - M.right) / 2} y={H - 17} textAnchor="middle">CONCEPTUAL DEPTH — ABSTRACTION, THEORY & PRECISION</text>
-          <text className="complexity-axis-title" transform={`translate(20 ${(M.top + H - M.bottom) / 2}) rotate(-90)`} textAnchor="middle">INTEGRATION SPAN — SYSTEMS, OWNERS & BOUNDARIES</text>
-        </svg>
-      </div>
+            <g className="complexity-quadrants" aria-hidden="true">
+              <line x1={x(complexityThreshold)} x2={x(complexityThreshold)} y1={M.top} y2={H - M.bottom} />
+              <line x1={M.left} x2={W - M.right} y1={y(complexityThreshold)} y2={y(complexityThreshold)} />
+              <text x={M.left + 14} y={M.top + 20}>COORDINATION IS THE HARD PART</text>
+              <text x={W - M.right - 14} y={M.top + 20} textAnchor="end">THEORY + COORDINATION COMBINE</text>
+              <text x={M.left + 14} y={H - M.bottom - 15}>MORE CONTAINED</text>
+              <text x={W - M.right - 14} y={H - M.bottom - 15} textAnchor="end">PRECISION IS THE HARD PART</text>
+            </g>
+
+            <g className="complexity-points">
+              {systemsConcepts.map((concept) => {
+                const isActive = concept.id === activeId
+                const isMuted = field !== 'all' && field !== concept.field
+                return (
+                  <g
+                    key={concept.id}
+                    className={`${isActive ? 'is-active' : ''} ${isMuted ? 'is-muted' : ''}`}
+                    data-field={concept.field}
+                    transform={`translate(${x(concept.depth) + pointOffset(concept)} ${y(concept.integration)})`}
+                    role="button"
+                    tabIndex="0"
+                    aria-label={`${concept.name}: precision ${concept.depth}, coordination ${concept.integration}`}
+                    onMouseEnter={() => setActiveId(concept.id)}
+                    onFocus={() => setActiveId(concept.id)}
+                    onClick={() => setActiveId(concept.id)}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault()
+                        setActiveId(concept.id)
+                      }
+                    }}
+                  >
+                    <circle r={isActive ? 16 : 12} />
+                    <text textAnchor="middle" y="3">{concept.id.split('-')[1]}</text>
+                  </g>
+                )
+              })}
+            </g>
+
+            <text className="complexity-axis-title" x={(M.left + W - M.right) / 2} y={H - 17} textAnchor="middle">MORE EXACT THEORY &amp; PRECISION →</text>
+            <text className="complexity-axis-title" transform={`translate(20 ${(M.top + H - M.bottom) / 2}) rotate(-90)`} textAnchor="middle">MORE SYSTEMS &amp; OWNERS MUST COOPERATE →</text>
+          </svg>
+        </div>
+      )}
 
       <aside className="complexity-detail" style={{ '--field-color': disciplineMeta[active.field].color }} aria-live="polite">
         <div className="complexity-detail__copy">
@@ -286,7 +358,7 @@ export function ComplexityMap() {
         <DimensionBars concept={active} />
         <ConceptReasoning concept={active} />
       </aside>
-      <p className="chart-hint">The full 1–10 scale is shown. Dashed lines mark the published score-7 “defining constraint” anchor. Markers are equal-sized; exact-score overlaps are separated slightly for selection only. Filter by discipline, then hover, tap, or tab through the numbered points.</p>
+      <p className="chart-hint">Scores remain the same in both views. The guided cards translate the two graph axes into ordinary language; the technical map retains the full 1–10 scale and score-7 threshold.</p>
     </div>
   )
 }

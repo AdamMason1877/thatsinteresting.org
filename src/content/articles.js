@@ -84,9 +84,9 @@ export const articles = [
         label: '01 · The map',
         title: 'Complexity has more than one direction',
         paragraphs: [
-          'Move right for deeper abstraction: semantics, proofs, concurrency, and exact models. Move up for wider integration: more systems, owners, control planes, and trust boundaries that must agree.',
-          'The plot now shows the full 1–10 scale. Its dashed lines are fixed at 7 because that is the first rubric anchor where a dimension becomes a defining constraint. The resulting quadrants describe problem shapes; they are not quartiles or rankings by prestige.',
-          'Select any point for the concise explanation. Open “How to audit the index” for all fifty score anchors and the category rule. Then open “Why these indicators?” to see the concept-specific evidence, field assignment, five score arguments, and primary sources.',
+          'Start with the plain-English tour. Choose a field and the atlas translates six difficult concepts into the everyday problem each one is trying to solve. “Precision” asks how exact the thinking must be; “coordination” asks how many systems and owners must agree.',
+          'When you want the graph, switch to the technical map. Move right for deeper abstraction and move up for wider integration. Its dashed lines sit at 7 because that is the first rubric anchor where a dimension becomes a defining constraint—not because 7 is a percentile or universal boundary.',
+          'Select any card or point for the five-part profile. Open “How to audit the index” for all fifty score anchors and the category rule, then “Why these indicators?” for the concept-specific evidence, field assignment, and primary sources.',
         ],
         module: 'complexity-map',
       },

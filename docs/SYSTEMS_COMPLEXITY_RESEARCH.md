@@ -62,6 +62,7 @@ The complete fifty-anchor rubric is stored in `src/content/systemsComplexityData
 - The dataset is intentionally selected from the complex end of each discipline. Empty lower quadrants are a property of the selection, not evidence that ordinary engineering work never appears there.
 - Field averages summarize this editorial sample, not entire professions or academic disciplines.
 - A source can justify that a concept crosses several domains or depends on asynchronous state; it cannot independently validate the chosen integer.
+- The default reader view shows one discipline and six named concepts at a time, translating `depth` to **precision** and `integration` to **coordination**. The technical map preserves the complete two-axis comparison, while the selected-concept panel retains all five dimensions.
 - Uniform marker size removes the former unlabelled consequence/blast-radius encoding.
 - Exact-score overlaps are offset by a few display pixels so each point remains selectable; the score panel and table remain authoritative.
 - Re-scoring should be required if the concept definition, production scope, or anchor wording changes.
