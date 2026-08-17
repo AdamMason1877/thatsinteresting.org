@@ -33,6 +33,404 @@
   --ease-out: cubic-bezier(.2, .8, .2, 1);
 }
 
+/* Readability defaults; repeated after responsive rules so the scale remains authoritative. */
+
+.site-nav a {
+  font-size: 14px;
+}
+
+.site-menu__inner > p,
+.site-menu__inner > a span,
+.eyebrow,
+.edition-label,
+.section-number,
+.story-kicker {
+  font-size: 13px;
+}
+
+.site-footer__small,
+.site-footer__links {
+  font-size: 14px;
+}
+
+.home-page--field {
+  --home-muted: #bbb8b1;
+}
+
+.home-page--field .wordmark__text,
+.home-page--field .site-nav a {
+  font-size: 16px;
+}
+
+.home-loop-hero__dek p {
+  max-width: 500px;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.home-loop-hero__dek a {
+  font-size: 16px;
+}
+
+.home-section-label {
+  min-height: 48px;
+  color: #bbb8b1;
+  font-size: 15px;
+}
+
+.home-section-label span:last-child {
+  color: #98958e;
+}
+
+.home-editorial__notes p {
+  font-size: 18px;
+  line-height: 1.68;
+}
+
+.home-exhibit__number,
+.home-exhibit__caption,
+.home-exhibit__meta {
+  font-size: 15px;
+}
+
+.home-exhibit__subtitle {
+  font-size: 21px;
+}
+
+.home-exhibit__dek {
+  font-size: 18px;
+  line-height: 1.68;
+}
+
+.home-exhibit__link {
+  font-size: 16px;
+}
+
+.home-atlas-index__intro > div:first-child > span {
+  font-size: 14px;
+}
+
+.home-atlas-card__topline {
+  color: #a8a59e;
+  font-size: 13px;
+}
+
+.home-atlas-card__body > span {
+  font-size: 12px;
+}
+
+.home-atlas-card__body h3 {
+  font-size: 32px;
+  line-height: 1.05;
+}
+
+.home-atlas-card__body p {
+  font-size: 16px;
+  line-height: 1.62;
+}
+
+.home-atlas-card__body small {
+  color: #aaa79f;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.home-atlas-card footer,
+.home-atlas-card footer strong,
+.home-atlas-index__hint,
+.home-page--field .site-footer__small,
+.home-page--field .site-footer__links {
+  color: #aaa79f;
+  font-size: 14px;
+}
+
+.story-hero__issue,
+.story-category,
+.cinematic-topline,
+.cinematic-copy__scene p,
+.cinematic-scroll-cue,
+.article-introduction__concept span,
+.field-stats span,
+.field-note-graphic > p,
+.field-note-graphic__facts i,
+.method-note .source-line,
+.source-list > span,
+.related-stories a span {
+  font-size: 12px;
+}
+
+.story-byline strong,
+.story-byline div span {
+  font-size: 14px;
+}
+
+.cinematic-copy__scene span {
+  color: #bbb7ae;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.article-introduction__concept strong {
+  font-size: 21px;
+}
+
+.evidence-key span {
+  font-size: 14px;
+}
+
+.section-copy {
+  font-size: 20px;
+}
+
+.chart-legend,
+.runway-legend {
+  font-size: 14px;
+}
+
+.chart-grid text,
+.complexity-grid text {
+  font-size: 13px;
+}
+
+.chart-quadrants text,
+.chart-axis-title,
+.complexity-quadrants text,
+.complexity-axis-title {
+  font-size: 12px;
+}
+
+.chart-tooltip {
+  width: 230px;
+  min-height: 152px;
+  padding: 18px;
+}
+
+.chart-tooltip > span,
+.chart-tooltip small {
+  font-size: 12px;
+}
+
+.chart-tooltip > strong {
+  font-size: 20px;
+}
+
+.chart-tooltip div,
+.chart-hint {
+  font-size: 13px;
+}
+
+.metrics-strip span,
+.runway-axis,
+.exchange-row__rank,
+.data-table th button,
+.data-table th:last-child {
+  font-size: 12px;
+}
+
+.metrics-strip p,
+.runway-row__value,
+.exchange-list__heading span,
+.exchange-list__note {
+  font-size: 15px;
+}
+
+.runway-row__label,
+.exchange-row__name,
+.data-table td:first-child {
+  font-size: 16px;
+}
+
+.data-table td {
+  font-size: 14px;
+}
+
+.method-note > p:not(.section-number) {
+  font-size: 19px;
+}
+
+.source-list a {
+  font-size: 14px;
+}
+
+.systems-cinema__field span,
+.systems-cinema__nodes i,
+.systems-cinema__core span,
+.systems-cinema__core small,
+.systems-cinema__pressure span {
+  font-size: 10px;
+}
+
+.complexity-view-switch button {
+  min-height: 108px;
+}
+
+.complexity-view-switch button > span,
+.complexity-atlas__toolbar > span,
+.category-guide > header > span,
+.concept-classification > span,
+.concept-evidence > span,
+.category-guide article > span,
+.complexity-guided > header > div > span,
+.complexity-guided > header > aside > span,
+.complexity-guided__cards button > span,
+.guided-concept-explanation > header > div > span,
+.guided-concept-explanation__body section > span,
+.guided-concept-explanation__body blockquote > span,
+.complexity-detail__copy > span,
+.concept-reasoning__position b,
+.concept-reasoning__drivers header span,
+.concept-reasoning__drivers small b,
+.concept-reasoning__next > span,
+.discipline-profile header > span,
+.discipline-profile footer span,
+.junction-detail header > span,
+.junction-weave span,
+.junction-detail > blockquote span,
+.junction-reasoning > div > p b,
+.junction-reasoning section > span,
+.complexity-table__concept small {
+  font-size: 12px;
+}
+
+.complexity-view-switch button > strong {
+  font-size: 22px;
+}
+
+.complexity-view-switch button > small,
+.complexity-atlas__toolbar button,
+.scoring-guide > summary > span,
+.concept-reasoning summary > span,
+.junction-reasoning summary > span,
+.scoring-guide > summary > span b,
+.concept-reasoning summary > span b,
+.junction-reasoning summary > span b,
+.scoring-guide > summary > strong,
+.concept-reasoning summary > strong,
+.junction-reasoning summary > strong,
+.scoring-rubric > details > summary span,
+.scoring-rubric > details > summary strong,
+.discipline-profile__reasoning summary,
+.complexity-metrics details summary {
+  font-size: 13px;
+}
+
+.complexity-atlas__toolbar button {
+  min-height: 40px;
+  padding: 0 15px;
+}
+
+.scoring-guide__body > p,
+.complexity-guided > header > div > p,
+.guided-concept-explanation > header > div > p,
+.complexity-detail__copy > p,
+.concept-reasoning__position,
+.junction-detail header p,
+.junction-reasoning > div > p {
+  font-size: 18px;
+}
+
+.scoring-guide__body > p + p,
+.scoring-guide__body > small,
+.category-guide > header > p,
+.category-guide article > p,
+.scoring-rubric > details > p,
+.scoring-rubric li span,
+.complexity-guided > header > aside p,
+.complexity-guided__cards button > p,
+.complexity-guided__cards footer span,
+.complexity-guided__hint,
+.guided-concept-explanation__sources a p,
+.complexity-plot-key p,
+.complexity-plot-key small,
+.complexity-detail__copy blockquote,
+.concept-classification > p,
+.concept-reasoning__drivers p,
+.concept-reasoning__drivers small,
+.concept-evidence a p,
+.concept-reasoning__next li,
+.complexity-metrics details > p,
+.discipline-profile header p,
+.discipline-profile__bars span,
+.discipline-profile__reasoning p,
+.junctions__index button i,
+.junction-weave p,
+.junction-reasoning li,
+.complexity-table td:nth-child(2) {
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.complexity-guided__cards button > strong {
+  font-size: 25px;
+}
+
+.complexity-guided__cards footer b,
+.concept-dimension > strong,
+.discipline-profile__bars strong {
+  font-size: 15px;
+}
+
+.guided-concept-explanation__body section > p,
+.guided-concept-explanation__body > blockquote p,
+.concept-classification > strong,
+.concept-evidence a strong,
+.guided-concept-explanation__sources a strong,
+.discipline-profile footer strong,
+.junction-weave strong,
+.junction-detail > blockquote,
+.complexity-table__concept span {
+  font-size: 17px;
+}
+
+.concept-dimension {
+  grid-template-columns: 150px 1fr 34px;
+}
+
+.concept-dimension > span {
+  font-size: 14px;
+}
+
+.concept-reasoning__drivers article {
+  min-height: 320px;
+}
+
+.discipline-profile__bars > div {
+  grid-template-columns: 135px 1fr 30px;
+}
+
+.junctions {
+  grid-template-columns: 360px minmax(0, 1fr);
+}
+
+.junctions__index button > span {
+  font-size: 12px;
+}
+
+.junctions__index button strong {
+  font-size: 20px;
+}
+
+.complexity-points text {
+  font-size: 9px;
+}
+
+@media (max-width: 760px) {
+  .home-loop-hero__dek p,
+  .home-editorial__notes p,
+  .home-exhibit__dek,
+  .section-copy {
+    font-size: 17px;
+  }
+
+  .home-atlas-card__body h3 {
+    font-size: 30px;
+  }
+
+  .junctions {
+    grid-template-columns: 1fr;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -4003,5 +4401,403 @@ a:focus-visible .arrow {
   .home-page--field .site-footer {
     min-height: 300px;
     padding: 42px 0;
+  }
+}
+
+/* Site-wide readability scale — editorial labels should never require squinting. */
+
+.site-nav a {
+  font-size: 14px;
+}
+
+.site-menu__inner > p,
+.site-menu__inner > a span,
+.eyebrow,
+.edition-label,
+.section-number,
+.story-kicker {
+  font-size: 13px;
+}
+
+.site-footer__small,
+.site-footer__links {
+  font-size: 14px;
+}
+
+.home-page--field {
+  --home-muted: #bbb8b1;
+}
+
+.home-page--field .wordmark__text,
+.home-page--field .site-nav a {
+  font-size: 16px;
+}
+
+.home-loop-hero__dek p {
+  max-width: 500px;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.home-loop-hero__dek a {
+  font-size: 16px;
+}
+
+.home-section-label {
+  min-height: 48px;
+  color: #bbb8b1;
+  font-size: 15px;
+}
+
+.home-section-label span:last-child {
+  color: #98958e;
+}
+
+.home-editorial__notes p {
+  font-size: 18px;
+  line-height: 1.68;
+}
+
+.home-exhibit__number,
+.home-exhibit__caption,
+.home-exhibit__meta {
+  font-size: 15px;
+}
+
+.home-exhibit__subtitle {
+  font-size: 21px;
+}
+
+.home-exhibit__dek {
+  font-size: 18px;
+  line-height: 1.68;
+}
+
+.home-exhibit__link {
+  font-size: 16px;
+}
+
+.home-atlas-index__intro > div:first-child > span {
+  font-size: 14px;
+}
+
+.home-atlas-card__topline {
+  color: #a8a59e;
+  font-size: 13px;
+}
+
+.home-atlas-card__body > span {
+  font-size: 12px;
+}
+
+.home-atlas-card__body h3 {
+  font-size: 32px;
+  line-height: 1.05;
+}
+
+.home-atlas-card__body p {
+  font-size: 16px;
+  line-height: 1.62;
+}
+
+.home-atlas-card__body small {
+  color: #aaa79f;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.home-atlas-card footer,
+.home-atlas-card footer strong,
+.home-atlas-index__hint,
+.home-page--field .site-footer__small,
+.home-page--field .site-footer__links {
+  color: #aaa79f;
+  font-size: 14px;
+}
+
+.story-hero__issue,
+.story-category,
+.cinematic-topline,
+.cinematic-copy__scene p,
+.cinematic-scroll-cue,
+.article-introduction__concept span,
+.field-stats span,
+.field-note-graphic > p,
+.field-note-graphic__facts i,
+.method-note .source-line,
+.source-list > span,
+.related-stories a span {
+  font-size: 12px;
+}
+
+.story-byline strong,
+.story-byline div span {
+  font-size: 14px;
+}
+
+.cinematic-copy__scene span {
+  color: #bbb7ae;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.article-introduction__concept strong {
+  font-size: 21px;
+}
+
+.evidence-key span {
+  font-size: 14px;
+}
+
+.section-copy {
+  font-size: 20px;
+}
+
+.chart-legend,
+.runway-legend {
+  font-size: 14px;
+}
+
+.chart-grid text,
+.complexity-grid text {
+  font-size: 13px;
+}
+
+.chart-quadrants text,
+.chart-axis-title,
+.complexity-quadrants text,
+.complexity-axis-title {
+  font-size: 12px;
+}
+
+.chart-tooltip {
+  width: 230px;
+  min-height: 152px;
+  padding: 18px;
+}
+
+.chart-tooltip > span,
+.chart-tooltip small {
+  font-size: 12px;
+}
+
+.chart-tooltip > strong {
+  font-size: 20px;
+}
+
+.chart-tooltip div,
+.chart-hint {
+  font-size: 13px;
+}
+
+.metrics-strip span,
+.runway-axis,
+.exchange-row__rank,
+.data-table th button,
+.data-table th:last-child {
+  font-size: 12px;
+}
+
+.metrics-strip p,
+.runway-row__value,
+.exchange-list__heading span,
+.exchange-list__note {
+  font-size: 15px;
+}
+
+.runway-row__label,
+.exchange-row__name,
+.data-table td:first-child {
+  font-size: 16px;
+}
+
+.data-table td {
+  font-size: 14px;
+}
+
+.method-note > p:not(.section-number) {
+  font-size: 19px;
+}
+
+.source-list a {
+  font-size: 14px;
+}
+
+.systems-cinema__field span,
+.systems-cinema__nodes i,
+.systems-cinema__core span,
+.systems-cinema__core small,
+.systems-cinema__pressure span {
+  font-size: 10px;
+}
+
+.complexity-view-switch button {
+  min-height: 108px;
+}
+
+.complexity-view-switch button > span,
+.complexity-atlas__toolbar > span,
+.category-guide > header > span,
+.concept-classification > span,
+.concept-evidence > span,
+.category-guide article > span,
+.complexity-guided > header > div > span,
+.complexity-guided > header > aside > span,
+.complexity-guided__cards button > span,
+.guided-concept-explanation > header > div > span,
+.guided-concept-explanation__body section > span,
+.guided-concept-explanation__body blockquote > span,
+.complexity-detail__copy > span,
+.concept-reasoning__position b,
+.concept-reasoning__drivers header span,
+.concept-reasoning__drivers small b,
+.concept-reasoning__next > span,
+.discipline-profile header > span,
+.discipline-profile footer span,
+.junction-detail header > span,
+.junction-weave span,
+.junction-detail > blockquote span,
+.junction-reasoning > div > p b,
+.junction-reasoning section > span,
+.complexity-table__concept small {
+  font-size: 12px;
+}
+
+.complexity-view-switch button > strong {
+  font-size: 22px;
+}
+
+.complexity-view-switch button > small,
+.complexity-atlas__toolbar button,
+.scoring-guide > summary > span,
+.concept-reasoning summary > span,
+.junction-reasoning summary > span,
+.scoring-guide > summary > span b,
+.concept-reasoning summary > span b,
+.junction-reasoning summary > span b,
+.scoring-guide > summary > strong,
+.concept-reasoning summary > strong,
+.junction-reasoning summary > strong,
+.scoring-rubric > details > summary span,
+.scoring-rubric > details > summary strong,
+.discipline-profile__reasoning summary,
+.complexity-metrics details summary {
+  font-size: 13px;
+}
+
+.complexity-atlas__toolbar button {
+  min-height: 40px;
+  padding: 0 15px;
+}
+
+.scoring-guide__body > p,
+.complexity-guided > header > div > p,
+.guided-concept-explanation > header > div > p,
+.complexity-detail__copy > p,
+.concept-reasoning__position,
+.junction-detail header p,
+.junction-reasoning > div > p {
+  font-size: 18px;
+}
+
+.scoring-guide__body > p + p,
+.scoring-guide__body > small,
+.category-guide > header > p,
+.category-guide article > p,
+.scoring-rubric > details > p,
+.scoring-rubric li span,
+.complexity-guided > header > aside p,
+.complexity-guided__cards button > p,
+.complexity-guided__cards footer span,
+.complexity-guided__hint,
+.guided-concept-explanation__sources a p,
+.complexity-plot-key p,
+.complexity-plot-key small,
+.complexity-detail__copy blockquote,
+.concept-classification > p,
+.concept-reasoning__drivers p,
+.concept-reasoning__drivers small,
+.concept-evidence a p,
+.concept-reasoning__next li,
+.complexity-metrics details > p,
+.discipline-profile header p,
+.discipline-profile__bars span,
+.discipline-profile__reasoning p,
+.junctions__index button i,
+.junction-weave p,
+.junction-reasoning li,
+.complexity-table td:nth-child(2) {
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.complexity-guided__cards button > strong {
+  font-size: 25px;
+}
+
+.complexity-guided__cards footer b,
+.concept-dimension > strong,
+.discipline-profile__bars strong {
+  font-size: 15px;
+}
+
+.guided-concept-explanation__body section > p,
+.guided-concept-explanation__body > blockquote p,
+.concept-classification > strong,
+.concept-evidence a strong,
+.guided-concept-explanation__sources a strong,
+.discipline-profile footer strong,
+.junction-weave strong,
+.junction-detail > blockquote,
+.complexity-table__concept span {
+  font-size: 17px;
+}
+
+.concept-dimension {
+  grid-template-columns: 150px 1fr 34px;
+}
+
+.concept-dimension > span {
+  font-size: 14px;
+}
+
+.concept-reasoning__drivers article {
+  min-height: 320px;
+}
+
+.discipline-profile__bars > div {
+  grid-template-columns: 135px 1fr 30px;
+}
+
+.junctions {
+  grid-template-columns: 360px minmax(0, 1fr);
+}
+
+.junctions__index button > span {
+  font-size: 12px;
+}
+
+.junctions__index button strong {
+  font-size: 20px;
+}
+
+.complexity-points text {
+  font-size: 9px;
+}
+
+@media (max-width: 760px) {
+  .home-loop-hero__dek p,
+  .home-editorial__notes p,
+  .home-exhibit__dek,
+  .section-copy {
+    font-size: 17px;
+  }
+
+  .home-atlas-card__body h3 {
+    font-size: 30px;
+  }
+
+  .junctions {
+    grid-template-columns: 1fr;
   }
 }
