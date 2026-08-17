@@ -1,0 +1,86 @@
+/* Article-only layout overrides load after the shared editorial system. */
+
+.story-page {
+  --story-ground: #171716;
+  --content-wide: 1440px;
+  --content-reading: 900px;
+  overflow-x: clip;
+  background:
+    radial-gradient(circle at 50% 3%, color-mix(in srgb, var(--article-accent) 5%, transparent), transparent 24rem),
+    var(--story-ground);
+}
+
+.cinematic-experience {
+  border-bottom: 0;
+}
+
+.cinematic-experience::after {
+  content: "";
+  height: clamp(160px, 20vh, 260px);
+  position: absolute;
+  z-index: 8;
+  inset: auto 0 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 8, 8, 0) 0%,
+    rgba(13, 13, 12, .62) 55%,
+    var(--story-ground) 100%
+  );
+}
+
+.story-page .site-header,
+.story-page .site-footer,
+.article-introduction,
+.method-note,
+.related-stories {
+  position: relative;
+  border-top: 0;
+  border-bottom: 0;
+}
+
+.story-page .site-header::after,
+.story-page .site-footer::before,
+.article-introduction::after,
+.story-section::before,
+.method-note::before,
+.method-note::after,
+.related-stories::before {
+  content: "";
+  width: 100vw;
+  height: 1px;
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--line);
+  pointer-events: none;
+}
+
+.story-page .site-header::after,
+.article-introduction::after,
+.method-note::after {
+  bottom: 0;
+}
+
+.story-page .site-footer::before,
+.story-section::before,
+.method-note::before,
+.related-stories::before {
+  top: 0;
+}
+
+.story-section {
+  position: relative;
+}
+
+@media (max-width: 760px) {
+  .story-page {
+    --content-wide: 100%;
+    --content-reading: 100%;
+  }
+
+  .cinematic-experience::after {
+    height: 140px;
+  }
+}
